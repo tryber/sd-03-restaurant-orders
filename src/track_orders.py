@@ -82,4 +82,3 @@ if __name__ == "__main__":
     for name, food, day in csv_parsed:
         track_orders.add_new_order(name, food, day)
     never_visited = track_orders.get_days_never_visited_per_costumer("joao")
-    print(never_visited)
