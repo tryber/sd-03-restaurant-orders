@@ -1,102 +1,87 @@
 class TrackOrders:
-    @staticmethod
-    def import_csv(path):
-        data = []
-        with open(path) as file:
-            reader = csv.reader(file)
-            for person, item, day in reader:
-                order_dict = {"person": person, "item": item, "day": day}
-                data.append(order_dict)
-        return data
-
     def __init__(self, path):
-        self.orders = self.import_csv(path)
+        self.orders = []
+        self.orders_per_day = {}
 
     def __len__(self):
         return len(self.orders)
 
+    def orders_per_day(self, day=False):
+        if day:
+            self.orders_per_day[day] += 1
+        else:
+            for order in self.orders:
+                day = order["day"]
+                if counter.get(day, 0):
+                    self.orders_per_day[day] += 1
+                else:
+                    self.orders_per_day[day] = 1
+
     def add_new_order(self, costumer, order, day):
-        order_dict = {
-            'person': costumer,
-            'item': order,
-            'day': day
-        } 
+        order_dict = {"person": costumer, "item": order, "day": day}
         self.orders.append(order_dict)
+        self.orders_per_day(day)
 
     def get_most_ordered_dish_per_costumer(self, costumer):
-        pass
-
-    def get_order_frequency_per_costumer(self, costumer, order):
-        pass
-
-    def get_never_ordered_per_costumer(self, costumer):
-        pass
-
-    def get_days_never_visited_per_costumer(self, costumer):
-        pass
-
-
-import csv
-
-
-class Analyze_log:
-    def most_ordered(self, client):
         most_ordered = ""
         counter = {}
         for order in self.orders:
             item = order["item"]
-            if order["person"] == client:
+            if order["person"] == costumer:
                 if counter.get(order["item"], 0):
                     counter[item] += 1
                 else:
                     counter[item] = 1
-            if most_ordered == "" or counter.get(item, 0) > counter.get(
+            if not most_ordered or counter.get(item, 0) > counter.get(
                 most_ordered, 0
             ):
                 most_ordered = item
         return most_ordered
 
-    def times_ordered_by_client(self, item, client):
+    def get_order_frequency_per_costumer(self, costumer, item):
         counter = 0
         for order in self.orders:
-            if order["person"] == client and order["item"] == item:
+            if order["person"] == costumer and order["item"] == item:
                 counter += 1
         return counter
 
-    def item_never_ordered_by_client(self, client):
+    def get_never_ordered_per_costumer(self, costumer):
         menu = set()
         ordered_by_client = set()
         for order in self.orders:
             menu.add(order["item"])
-            if order["person"] == client:
+            if order["person"] == costumer:
                 ordered_by_client.add(order["item"])
         difference = menu.difference(ordered_by_client)
-        print(difference)
         return difference
 
-    def days_client_never_went(self, client):
+    def get_days_never_visited_per_costumer(self, costumer):
         days = set()
         days_went = set()
         for order in self.orders:
             days.add(order["day"])
-            if order["person"] == client:
+            if order["person"] == costumer:
                 days_went.add(order["day"])
         difference = days.difference(days_went)
-        print(difference)
         return difference
 
-
-def analyze_log(path_to_file):
-    logger = Analyze_log(path_to_file)
-    logs = [
-        logger.most_ordered("maria"),
-        logger.times_ordered_by_client("hamburguer", "arnaldo"),
-        logger.item_never_ordered_by_client("joao"),
-        logger.days_client_never_went("joao"),
-    ]
-    with open("data/mkt_campaign.txt", "w") as file:
-        for log in logs:
-            file.writelines(f"{log}\n")
+    def get_busiest_day(self):
+        busiest_day = ""
+        for day in self.orders_per_day:
+            if (
+                self.orders_per_day.get(busiest_day, 0)
+                < self.orders_per_day[day]
+            ):
+                busiest_day = day
+        return busiest_day
+    def get_least_busy_day(self):
+        for day in self.orders_per_day:
+            if (
+                self.orders_per_day.get(busiest_day, 0)
+                > self.orders_per_day[day]
+            ):
+                busiest_day = day
+        return busiest_day
 
 
 if __name__ == "__main__":
