@@ -9,12 +9,12 @@ class InventoryControl:
 
         self.minimum_inventory = {
             'pao': 50,
-            'carne': 35,
+            'carne': 50,
             'queijo': 100,
-            'molho': 30,
-            'presunto': 20,
-            'massa': 20,
-            'frango': 10,
+            'molho': 50,
+            'presunto': 50,
+            'massa': 50,
+            'frango': 50,
         }
 
     def add_new_order(self, costumer, order, day):
