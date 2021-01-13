@@ -1,21 +1,20 @@
 class InventoryControl:
     def __init__(self):
         self.ingredients = {
-            "hamburguer": ["pao", "carne", "queijo"],
-            "pizza": ["massa", "queijo", "molho"],
-            "misto-quente": ["pao", "queijo", "presunto"],
-            "coxinha": ["massa", "frango"],
+            'hamburguer': ['pao', 'carne', 'queijo'],
+            'pizza': ['massa', 'queijo', 'molho'],
+            'misto-quente': ['pao', 'queijo', 'presunto'],
+            'coxinha': ['massa', 'frango'],
         }
 
         self.minimum_inventory = {
-            "pao": 50,
-            "carne": 35,
-            "queijo": 100,
-            "molho": 30,
-            "presunto": 20,
-            "massa": 20,
-            "frango": 10,
-        }
+            'pao': 50,
+            'carne': 35,
+            'queijo': 100,
+            'molho': 30,
+            'presunto': 20,
+            'massa': 20,
+            'frango': 10,
 
         self.inventory = {
             "pao": 50,
