@@ -27,7 +27,7 @@ class InventoryControl:
             "frango": 50,
         }
 
-    def add_new_order(self, costumer, order, _day):
+    def add_new_order(self, _costumer, order, _day):
         order_ingredients = self.ingredients[order]
         for ingredient in order_ingredients:
             self.inventory[ingredient] -= 1
@@ -40,8 +40,20 @@ class InventoryControl:
             )
         return ingredients_to_buy
 
+    def get_available_dishes(self):
+        menu = []
+        for dish, ingredients in self.ingredients.items():
+            menu.append(dish)
+            for ingredient in ingredients:
+                if self.inventory[ingredient] == 0:
+                    menu.pop()
+                    break
+        return menu
+
 
 if __name__ == "__main__":
     inventory = InventoryControl()
-    inventory.add_new_order("", "pizza", "")
+    inventory.add_new_order("jorge", "hamburguer", "terça-feira")
+    inventory.add_new_order("maria", "pizza", "terça-feira")
     print(inventory.get_quantities_to_buy())
+    print(inventory.get_available_dishes())
