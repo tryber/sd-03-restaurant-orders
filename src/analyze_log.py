@@ -8,8 +8,6 @@ class Analyze_log:
         with open(path) as file:
             reader = csv.reader(file)
             for person, item, day in reader:
-                print(f"{item=}")
-                print(f"{person=}")
                 order_dict = {"person": person, "item": item, "day": day}
                 data.append(order_dict)
         return data
@@ -48,7 +46,6 @@ class Analyze_log:
             if order["person"] == client:
                 ordered_by_client.add(order["item"])
         difference = menu.difference(ordered_by_client)
-        print(difference)
         return difference
 
     def days_client_never_went(self, client):
@@ -59,7 +56,6 @@ class Analyze_log:
             if order["person"] == client:
                 days_went.add(order["day"])
         difference = days.difference(days_went)
-        print(difference)
         return difference
 
 

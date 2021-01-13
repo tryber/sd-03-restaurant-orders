@@ -41,11 +41,21 @@ class InventoryControl:
     def get_quantities_to_buy(self):
         quantities_to_buy = {}
         for item in self.inventory:
-            print(f"{self.minimum_inventory[item]= }")
-            print(f"{self.inventory[item]= }")
             difference = self.minimum_inventory[item] - self.inventory[item]
             quantities_to_buy[item] = difference
         return quantities_to_buy
 
-    def get_available_dishes():
-        pass
+    def get_available_dishes(self):
+        avaliable_dishes = set()
+        unavaliable_inventory = set()
+        avaliable_inventory = set(self.inventory.keys()) 
+        for item in self.inventory:
+            if self.inventory[item] <= 0:
+                avaliable_inventory.discard(item)
+                unavaliable_inventory.add(item)
+        for name, ingredients in self.ingredients.items():
+            intersection = set(set(ingredients)).intersection(avaliable_inventory)
+            print(name, intersection)
+            if intersection == set(ingredients):
+                avaliable_dishes.add(name)
+        return avaliable_dishes            
