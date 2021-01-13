@@ -28,6 +28,12 @@ class TrackOrders:
     def get_days_never_visited_per_costumer(self, costumer):
         return get_unvisited_days(self.orders, costumer)
 
+    def get_busiest_day(self):
+        pass
+
+    def get_least_busy_day(self):
+        pass
+
 
 if __name__ == "__main__":
     tracker = TrackOrders()

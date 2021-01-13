@@ -295,7 +295,7 @@ O `log` a ser utilizado ainda é o arquivo `data/orders_1.csv`. É garantido que
 
 No arquivo `inventory_control.py` você deve implementar a classe `InventoryControl` que retorna a lista de compras da semana, a partir da informação de cada. É importante que a lista seja atualizada a cada pedido, e não apenas ao final de semana, pois a gerência quer a liberdade de imprimir a lista de compras a qualquer momento.
 
-A estrutura básica da classe está demonstrada abaixo e já contém as informações dos ingredientes, bem como o estoque mínimo de cada um. O método `get_shopping_list` deve retornar um `Dict` que mapeia o ingrediente para a quantidade a ser comprada:
+A estrutura básica da classe está demonstrada abaixo e já contém as informações dos ingredientes, bem como o estoque mínimo de cada um. O método `get_quantities_to_buy` deve retornar um `Dict` que mapeia o ingrediente para a quantidade a ser comprada:
 
 ```python
 class InventoryControl:
@@ -323,7 +323,7 @@ class InventoryControl:
     def add_new_order(self, costumer, order, _day):
         pass
 
-    def get_shopping_list(self):
+    def get_quantities_to_buy(self):
         pass
 ```
 
@@ -341,11 +341,11 @@ class InventoryControl:
 
 ##### As seguintes verificações serão feitas:
 
-- Executar o método `get_shopping_list` deverá retornar a lista atualizada de ingredientes.
+- Executar o método `gget_quantities_to_buy` deverá retornar a lista atualizada de ingredientes.
 
-- Executar o método `get_shopping_list` deverá retornar toda a quantiade de ingredientes há se comprar de hamburguer.
+- Executar o método `get_quantities_to_buy` deverá retornar toda a quantiade de ingredientes há se comprar de hamburguer.
 
-- Executar o método `get_shopping_list` a lista atualizada dos ingredientes que usam receitas diferentes.
+- Executar o método `get_quantities_to_buy` a lista atualizada dos ingredientes que usam receitas diferentes.
 
 ### 4 - Estoque pode acabar
 
