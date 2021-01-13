@@ -18,7 +18,7 @@ class TrackOrders:
 
     def get_order_frequency_per_costumer(self, costumer, order):
         qnt_by_rec_by_clt = {}
-        for customer, recipe in self.orders:
+        for customer, recipe, day in self.orders:
             if customer not in qnt_by_rec_by_clt:
                 qnt_by_rec_by_clt[customer] = {recipe: 1}
                 continue
