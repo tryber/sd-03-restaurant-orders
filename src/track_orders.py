@@ -11,11 +11,6 @@ class TrackOrders:
             self.orders_per_day[day] += 1
         else:
             self.orders_per_day[day] = 1
-            # for order in self.orders:
-            #     day = order["day"]
-            #     if self.orders_per_day.get(day, 0):
-            #         self.orders_per_day[day] += 1
-            #     else:
 
     def add_new_order(self, costumer, order, day):
         order_dict = {"person": costumer, "item": order, "day": day}
@@ -68,7 +63,6 @@ class TrackOrders:
         difference = days.difference(days_went)
         return difference
 
-
     def get_busiest_day(self):
         busiest_day = ""
         for day in self.orders_per_day:
@@ -79,17 +73,11 @@ class TrackOrders:
                 busiest_day = day
         return busiest_day
 
-
     def get_least_busy_day(self):
-        busiest_day = ''
+        busiest_day = ""
         for day in self.orders_per_day:
-            if (
-                self.orders_per_day.get(busiest_day, 1)
-                >= self.orders_per_day.get(day)
-            ):
+            if self.orders_per_day.get(
+                busiest_day, 1
+            ) >= self.orders_per_day.get(day):
                 busiest_day = day
         return busiest_day
-
-
-# if __name__ == "__main__":
-
