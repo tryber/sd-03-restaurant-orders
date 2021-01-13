@@ -58,32 +58,26 @@ def get_unvisited_days(data, costumer):
 
 
 def analyze_log(path_to_file):
-    if not path_to_file.endswith(".csv"):
-        raise ValueError(f"No such file or directory: {path_to_file}")
+    with open(path_to_file, "r") as orders_file:
+        content = csv.reader(orders_file, delimiter=",")
+        data = [*content]
 
-    try:
-        with open(path_to_file, "r") as orders_file:
-            content = csv.reader(orders_file, delimiter=",")
-            data = [*content]
+        most_requested_recipe = get_most_requested_recipe(data, "maria")
+        qnt_the_recipe_was_ordered = get_qnt_the_recipe_was_ordered(
+            data, "arnaldo", "hamburguer"
+        )
+        recipes_never_ordered = get_recipes_never_ordered(data, "joao")
+        unvisited_days = get_unvisited_days(data, "joao")
 
-            most_requested_recipe = get_most_requested_recipe(data, "maria")
-            qnt_the_recipe_was_ordered = get_qnt_the_recipe_was_ordered(
-                data, "arnaldo", "hamburguer"
+        with open("data/mkt_campaign.txt", "w") as marketing_file:
+            print(
+                most_requested_recipe,
+                qnt_the_recipe_was_ordered,
+                recipes_never_ordered,
+                unvisited_days,
+                sep="\n",
+                file=marketing_file,
             )
-            recipes_never_ordered = get_recipes_never_ordered(data, "joao")
-            unvisited_days = get_unvisited_days(data, "joao")
-
-            with open("data/mkt_campaign.txt", "w") as marketing_file:
-                print(
-                    most_requested_recipe,
-                    qnt_the_recipe_was_ordered,
-                    recipes_never_ordered,
-                    unvisited_days,
-                    sep="\n",
-                    file=marketing_file
-                )
-    except FileNotFoundError:
-        raise ValueError(f"No such file or directory: {path_to_file}")
 
 
 if __name__ == "__main__":
