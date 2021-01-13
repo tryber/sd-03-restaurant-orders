@@ -5,36 +5,42 @@ def get_maria_info(path_to_file):
     maria_dish = ""
     maria_orders = {}
 
-    with open(path_to_file, "r") as file:
-        data = csv.reader(file, delimiter=",", quotechar='"')
+    try:
+        with open(path_to_file, "r") as file:
+            data = csv.reader(file, delimiter=",", quotechar='"')
 
-        for name, order, day in data:
-            if name == "maria":
-                if order not in maria_orders:
-                    maria_orders[order] = 1
-                else:
-                    maria_orders[order] += 1
+            for name, order, day in data:
+                if name == "maria":
+                    if order not in maria_orders:
+                        maria_orders[order] = 1
+                    else:
+                        maria_orders[order] += 1
 
-                if (
-                    maria_dish not in maria_orders
-                    or maria_orders[order] > maria_orders[maria_dish]
-                ):
-                    maria_dish = order
-
+                    if (
+                        maria_dish not in maria_orders
+                        or maria_orders[order] > maria_orders[maria_dish]
+                    ):
+                        maria_dish = order
+    except FileNotFoundError:
+        raise ValueError(f"No such file or directory: {path_to_file}")
+    else:
         return maria_dish
 
 
 def get_arnaldo_info(path_to_file):
     arnaldo_frequency = 0
 
-    with open(path_to_file, "r") as file:
-        data = csv.reader(file, delimiter=",", quotechar='"')
+    try:
+        with open(path_to_file, "r") as file:
+            data = csv.reader(file, delimiter=",", quotechar='"')
 
-        for name, order, day in data:
-            if name == "arnaldo" and order == "hamburguer":
-                arnaldo_frequency += 1
-
-    return str(arnaldo_frequency)
+            for name, order, day in data:
+                if name == "arnaldo" and order == "hamburguer":
+                    arnaldo_frequency += 1
+    except FileNotFoundError:
+        raise ValueError(f"No such file or directory: {path_to_file}")
+    else:
+        return str(arnaldo_frequency)
 
 
 def format_output(data):
@@ -54,27 +60,33 @@ def get_joao_info(path_to_file):
     restaurant_days = set()
     joao_days = set()
 
-    with open(path_to_file, "r") as file:
-        data = csv.reader(file, delimiter=",", quotechar='"')
+    try:
+        with open(path_to_file, "r") as file:
+            data = csv.reader(file, delimiter=",", quotechar='"')
 
-        for name, order, day in data:
-            restaurant_dishes.add(order)
-            restaurant_days.add(day)
+            for name, order, day in data:
+                restaurant_dishes.add(order)
+                restaurant_days.add(day)
 
-            if name == "joao":
-                joao_dishes.add(order)
-                joao_days.add(day)
+                if name == "joao":
+                    joao_dishes.add(order)
+                    joao_days.add(day)
+    except FileNotFoundError:
+        raise ValueError(f"No such file or directory: {path_to_file}")
+    else:
+        dishes_never = restaurant_dishes.difference(joao_dishes)
+        days_never_went_to_restaurant = restaurant_days.difference(joao_days)
 
-    dishes_never = restaurant_dishes.difference(joao_dishes)
-    days_never_went_to_restaurant = restaurant_days.difference(joao_days)
-
-    return [
-        format_output(dishes_never),
-        format_output(days_never_went_to_restaurant),
-    ]
+        return [
+            format_output(dishes_never),
+            format_output(days_never_went_to_restaurant),
+        ]
 
 
 def analyse_log(path_to_file):
+    if not path_to_file.endswith(".csv"):
+        raise ValueError(f"No such file or directory: {path_to_file}")
+
     maria_dish = get_maria_info(path_to_file)
     arnaldo_frequency = get_arnaldo_info(path_to_file)
     (
