@@ -1,5 +1,5 @@
 class TrackOrders:
-    def __init__(self, path):
+    def __init__(self):
         self.orders = []
         self.orders_per_day = {}
 
@@ -7,20 +7,23 @@ class TrackOrders:
         return len(self.orders)
 
     def orders_per_day(self, day=False):
-        if day:
+        if self.orders_per_day[day]:
             self.orders_per_day[day] += 1
         else:
-            for order in self.orders:
-                day = order["day"]
-                if counter.get(day, 0):
-                    self.orders_per_day[day] += 1
-                else:
-                    self.orders_per_day[day] = 1
+            self.orders_per_day[day] = 1
+            # for order in self.orders:
+            #     day = order["day"]
+            #     if self.orders_per_day.get(day, 0):
+            #         self.orders_per_day[day] += 1
+            #     else:
 
     def add_new_order(self, costumer, order, day):
         order_dict = {"person": costumer, "item": order, "day": day}
         self.orders.append(order_dict)
-        self.orders_per_day(day)
+        if self.orders_per_day.get(day):
+            self.orders_per_day[day] += 1
+        else:
+            self.orders_per_day[day] = 1
 
     def get_most_ordered_dish_per_costumer(self, costumer):
         most_ordered = ""
@@ -65,6 +68,7 @@ class TrackOrders:
         difference = days.difference(days_went)
         return difference
 
+
     def get_busiest_day(self):
         busiest_day = ""
         for day in self.orders_per_day:
@@ -74,15 +78,18 @@ class TrackOrders:
             ):
                 busiest_day = day
         return busiest_day
+
+
     def get_least_busy_day(self):
+        busiest_day = ''
         for day in self.orders_per_day:
             if (
-                self.orders_per_day.get(busiest_day, 0)
-                > self.orders_per_day[day]
+                self.orders_per_day.get(busiest_day, 1)
+                >= self.orders_per_day.get(day)
             ):
                 busiest_day = day
         return busiest_day
 
 
-if __name__ == "__main__":
-    analyze_log("data/orders_1.csv")
+# if __name__ == "__main__":
+
