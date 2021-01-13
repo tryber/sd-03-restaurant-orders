@@ -61,4 +61,3 @@ if __name__ == "__main__":
         ingredients.add_new_order("jorge", "coxinha", "terça-feira")
         count += 1
     dishes = ingredients.get_available_dishes()
-    print(dishes)
