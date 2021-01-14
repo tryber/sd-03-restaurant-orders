@@ -85,8 +85,10 @@ def analyze_log(path_to_file):
     food_not_ordered = set()
     absent_days = set()
     data = get_data(path_to_file)
+
     foods_from_person = extract_food_from_file_by_person(data)
     days_from_person = extract_day_from_file_by_person(data)
+
     most_ordered = client_favorite_order(foods_from_person, "maria")
     how_many_orders = count_orders_by_food_and_person(
         foods_from_person, "hamburguer", "arnaldo"
