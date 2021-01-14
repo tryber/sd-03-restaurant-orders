@@ -1,77 +1,84 @@
 import csv
 
 
-def check_path_and_format(file_name, file_ext):
-    if not file_name.endswith(file_ext):
-        print("Formato inválido")
-        return True
-    return False
+def get_most_requested_recipe(data, costumer):
+    most_requested = ""
+    costumer_orders = {}
+
+    for name, order, day in data:
+        if name == costumer:
+            if order not in costumer_orders:
+                costumer_orders[order] = 1
+            else:
+                costumer_orders[order] += 1
+
+            if (
+                most_requested not in costumer_orders
+                or costumer_orders[order] > costumer_orders[most_requested]
+            ):
+                most_requested = order
+
+    return most_requested
 
 
-def most_requested_food(data):
-    dict_resp = {}
-    most_frequent = data['Orders'][0]
-    for values in data['Orders']:
-        if(values not in dict_resp):
-            dict_resp[values] = 1
-        else:
-            dict_resp[values] += 1
-        if(dict_resp[values] > dict_resp[most_frequent]):
-            most_frequent = values
-    return most_frequent
+def get_qnt_the_recipe_was_ordered(data, costumer, recipe):
+    quantity = 0
+
+    for name, order, day in data:
+        if name == costumer and order == recipe:
+            quantity += 1
+
+    return quantity
 
 
-def most_type_food(food, data):
-    count_food = 0
-    for values in data:
-        if(values == food):
-            count_food += 1
-    return count_food
+def get_recipes_never_ordered(data, costumer):
+    restaurant_recipes = set()
+    costumer_recipes = set()
+
+    for name, order, day in data:
+        restaurant_recipes.add(order)
+
+        if name == costumer:
+            costumer_recipes.add(order)
+
+    return restaurant_recipes.difference(costumer_recipes)
 
 
-def never_requested_meal(all_meals, data):
-    meals = set(data)
-    return all_meals.difference(meals)
+def get_unvisited_days(data, costumer):
+    open_days = set()
+    visited_days = set()
+
+    for name, order, day in data:
+        open_days.add(day)
+
+        if name == costumer:
+            visited_days.add(day)
+
+    return open_days.difference(visited_days)
 
 
-def days_that_wasnt_in_place(all_days, data):
-    cur_days = set(data)
-    return all_days.difference(cur_days)
+def analyze_log(path_to_file):
+    with open(path_to_file, "r") as orders_file:
+        content = csv.reader(orders_file, delimiter=",")
+        data = [*content]
 
+        most_requested_recipe = get_most_requested_recipe(data, "maria")
+        qnt_the_recipe_was_ordered = get_qnt_the_recipe_was_ordered(
+            data, "arnaldo", "hamburguer"
+        )
+        recipes_never_ordered = get_recipes_never_ordered(data, "joao")
+        unvisited_days = get_unvisited_days(data, "joao")
 
-def import_csv(path_to_file):
-    if(check_path_and_format(path_to_file, '.csv')):
-        return True
-    all_days = set()
-    all_meals = set()
-    data = ''
-    resp = {}
-    with open(path_to_file) as file:
-        data = csv.reader(file, delimiter=",")
-        for customer, order, day in data:
-            if(customer not in resp):
-                resp[customer] = {
-                    'Orders': [],
-                    'Days': [],
-                }
-            resp[customer]['Orders'].append(order)
-            resp[customer]['Days'].append(day)
-            all_days.add(day)
-            all_meals.add(order)
-    return resp, all_days, all_meals
-
-
-def analyse_log(path_to_file):
-    resp, all_days, all_meals = import_csv(path_to_file)
-    if(resp is True):
-        return True
-    with open('output.txt', 'w+') as file:
-        file.write(f"{most_requested_food(resp['maria'])}\n")
-        file.write(
-            f"{most_type_food('hamburguer', resp['arnaldo']['Orders'])}\n")
-        file.write(
-            f"{never_requested_meal(all_meals, resp['joao']['Orders'])}\n"
+        with open("data/mkt_campaign.txt", "w") as marketing_file:
+            print(
+                most_requested_recipe,
+                qnt_the_recipe_was_ordered,
+                recipes_never_ordered,
+                unvisited_days,
+                sep="\n",
+                file=marketing_file,
             )
-        file.write(
-            f"{days_that_wasnt_in_place(all_days, resp['joao']['Days'])}"
-            )
+
+
+if __name__ == "__main__":
+    analyze_log("data/orders_1.csv")
