@@ -396,6 +396,8 @@ Altere o arquivo `main.py`:
 
 ##### As seguintes verificações serão feitas:
 
+- Adicionar uma quantidade maior de ingredientes deverá retornar false
+
 - Executar o método `get_available_dishes` deverá retornar todos os pratos onde os pratos tem ingredientes.
 
 - Executar o método `get_available_dishes` não deverá retornar os pratos o qual os ingradientes não sejam suficientes para prepará-los.

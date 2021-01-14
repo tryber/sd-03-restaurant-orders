@@ -51,6 +51,11 @@
       "bonus": false
     },
     {
+      "identifier": "test_validar_compra_uma_quantidade_maior_que_o_minimo",
+      "description": "Adicionar uma quantidade maior de ingredientes deverá retornar false",
+      "bonus": true
+    },
+    {
       "identifier": "test_validar_atualizou_a_quantidade_em_estoque",
       "description": "Executar o método `get_shopping_list` deverá retornar a lista atualizada de ingredientes",
       "bonus": true

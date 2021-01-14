@@ -8,13 +8,13 @@ class InventoryControl:
         }
 
         self.minimum_inventory = {
-            "pao": 50,
-            "carne": 35,
-            "queijo": 100,
-            "molho": 30,
-            "presunto": 20,
-            "massa": 20,
-            "frango": 10,
+            'pao': 50,
+            'carne': 50,
+            'queijo': 100,
+            'molho': 50,
+            'presunto': 50,
+            'massa': 50,
+            'frango': 50,
         }
         self.inventory = self.minimum_inventory.copy()
 
@@ -58,4 +58,4 @@ class InventoryControl:
             print(name, intersection)
             if intersection == set(ingredients):
                 avaliable_dishes.add(name)
-        return avaliable_dishes            
+        return sorted(list(avaliable_dishes))            
