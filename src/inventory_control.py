@@ -8,13 +8,13 @@ class InventoryControl:
         }
 
         self.minimum_inventory = {
-            'pao': 50,
-            'carne': 50,
-            'queijo': 100,
-            'molho': 50,
-            'presunto': 50,
-            'massa': 50,
-            'frango': 50,
+            "pao": 50,
+            "carne": 50,
+            "queijo": 100,
+            "molho": 50,
+            "presunto": 50,
+            "massa": 50,
+            "frango": 50,
         }
         self.inventory = self.minimum_inventory.copy()
 
@@ -48,14 +48,15 @@ class InventoryControl:
     def get_available_dishes(self):
         avaliable_dishes = set()
         unavaliable_inventory = set()
-        avaliable_inventory = set(self.inventory.keys()) 
+        avaliable_inventory = set(self.inventory.keys())
         for item in self.inventory:
             if self.inventory[item] <= 0:
                 avaliable_inventory.discard(item)
                 unavaliable_inventory.add(item)
         for name, ingredients in self.ingredients.items():
-            intersection = set(set(ingredients)).intersection(avaliable_inventory)
-            print(name, intersection)
+            intersection = set(set(ingredients)).intersection(
+                avaliable_inventory
+            )
             if intersection == set(ingredients):
                 avaliable_dishes.add(name)
-        return sorted(list(avaliable_dishes))            
+        return avaliable_dishes
