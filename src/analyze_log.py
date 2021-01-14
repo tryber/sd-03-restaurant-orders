@@ -11,6 +11,10 @@ def get_total_dish(file, person):
 
 
 def analyse_log(path_to_file):
+    if not path_to_file:
+        return FileNotFoundError
+    if not path_to_file.endswith('.csv'):
+        raise ValueError('Arquivo inválido')
     with open(path_to_file) as f:
         file = csv.reader(f, delimiter=",")
         result_dish = get_total_dish(file, "maria")
