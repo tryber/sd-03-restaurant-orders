@@ -42,7 +42,6 @@ class TrackOrders:
     def get_never_ordered_per_costumer(self, costumer):
         all_foods = set()
         foods_from_person = self.extract_food_from_orders_by_person()
-        print(foods_from_person)
         for person in foods_from_person:
             for food in foods_from_person[person]:
                 all_foods.add(food)
@@ -52,14 +51,44 @@ class TrackOrders:
         pass
 
     def get_days_never_visited_per_costumer(self, costumer):
+        all_days = set()
         days_from_person = self.extract_day_from_orders_by_person()
-        return days_from_person
+        for person in days_from_person:
+            for day in days_from_person[person]:
+                all_days.add(day)
+        return all_days.difference(days_from_person[costumer])
 
     def get_busiest_day(self):
-        pass
+        all_days_counter = {}
+        days_from_person = self.extract_day_from_orders_by_person()
+        busiest = ''
+        flag = True
+        for person in days_from_person:
+            for day in days_from_person[person]:
+                if day not in all_days_counter:
+                    all_days_counter[day] = 1
+                else:
+                    all_days_counter[day] += 1
+                if flag or all_days_counter[busiest] < all_days_counter[day]:
+                    busiest = day
+                    flag = False
+        return busiest
 
     def get_least_busy_day(self):
-        pass
+        all_days_counter = {}
+        days_from_person = self.extract_day_from_orders_by_person()
+        busiest = ''
+        flag = True
+        for person in days_from_person:
+            for day in days_from_person[person]:
+                if day not in all_days_counter:
+                    all_days_counter[day] = 1
+                else:
+                    all_days_counter[day] += 1
+                if flag or all_days_counter[busiest] > all_days_counter[day]:
+                    busiest = day
+                    flag = False
+        return busiest
 
 
 if __name__ == "__main__":
@@ -72,11 +101,13 @@ if __name__ == "__main__":
         ["jose", "hamburguer", "sabado"],
         ["maria", "hamburguer", "terça-feira"],
         ["maria", "hamburguer", "terça-feira"],
-        ["joao", "hamburguer", "terça-feira"]
+        ["joao", "hamburguer", "terça-feira"],
     ]
     trackOrders = TrackOrders()
     for name, food, day in csv_parsed:
         trackOrders.add_new_order(name, food, day)
-    # print(trackOrders.get_most_ordered_dish_per_costumer("maria"))
-    # print(trackOrders.get_never_ordered_per_costumer("maria"))
-    print(trackOrders.get_days_never_visited_per_costumer("maria"))
+    print(trackOrders.get_most_ordered_dish_per_costumer("maria"))
+    print(trackOrders.get_never_ordered_per_costumer("maria"))
+    print(trackOrders.get_days_never_visited_per_costumer("joao"))
+    print(trackOrders.get_busiest_day())
+    print(trackOrders.get_least_busy_day())
