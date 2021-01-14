@@ -26,42 +26,23 @@ def count_orders_by_food_and_person(foods_from_person, query_food, person):
     return orders_by_food[query_food]
 
 
-def never_ordered_by_client(foods_from_person, query_person):
+def difference_by_person(data_from_people, query_person):
     # comida que joao nao pediu
-    all_foods = set()
-    for person in foods_from_person:
-        for food in foods_from_person[person]:
-            all_foods.add(food)
-    return all_foods.difference(foods_from_person[query_person])
+    complete_set = set()
+    for person in data_from_people:
+        for individual_data in data_from_people[person]:
+            complete_set.add(individual_data)
+    return complete_set.difference(data_from_people[query_person])
 
 
-def days_that_one_person_didnt_go(days_from_person, query_person):
-    # dia que joao n foi
-    all_days = set()
-    for person in days_from_person:
-        for day in days_from_person[person]:
-            all_days.add(day)
-    return all_days.difference(days_from_person[query_person])
-
-
-def extract_food_from_file_by_person(data):
-    orders_by_food = {}
-    for person, food, day in data:
-        if person not in orders_by_food:
-            orders_by_food[person] = [food]
+def extract_specific_information(data_list, index):
+    orders = {}
+    for data in data_list:
+        if data[0] not in orders:
+            orders[data[0]] = [data[index]]
         else:
-            orders_by_food[person].append(food)
-    return orders_by_food
-
-
-def extract_day_from_file_by_person(data):
-    orders_by_day = {}
-    for person, food, day in data:
-        if person not in orders_by_day:
-            orders_by_day[person] = [day]
-        else:
-            orders_by_day[person].append(day)
-    return orders_by_day
+            orders[data[0]].append(data[index])
+    return orders
 
 
 def get_data(path_to_file):
@@ -86,15 +67,15 @@ def analyze_log(path_to_file):
     absent_days = set()
     data = get_data(path_to_file)
 
-    foods_from_person = extract_food_from_file_by_person(data)
-    days_from_person = extract_day_from_file_by_person(data)
+    foods_from_person = extract_specific_information(data, 1)
+    days_from_person = extract_specific_information(data, 2)
 
     most_ordered = client_favorite_order(foods_from_person, "maria")
     how_many_orders = count_orders_by_food_and_person(
         foods_from_person, "hamburguer", "arnaldo"
     )
-    food_not_ordered = never_ordered_by_client(foods_from_person, "joao")
-    absent_days = days_that_one_person_didnt_go(days_from_person, "joao")
+    food_not_ordered = difference_by_person(foods_from_person, "joao")
+    absent_days = difference_by_person(days_from_person, "joao")
     save_data(
         "./data/mkt_campaign.txt",
         [most_ordered, how_many_orders, food_not_ordered, absent_days],
