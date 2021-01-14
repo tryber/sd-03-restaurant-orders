@@ -74,7 +74,7 @@ def test_listar_todo_os_pratos_com_ingredientes():
     ingredients = InventoryControl()
     ingredients.add_new_order("jorge", "coxinha", "terça-feira")
     dishes = ingredients.get_available_dishes()
-    assert dishes == ["hamburguer", "pizza", "misto-quente", "coxinha"]
+    assert dishes == {"hamburguer", "pizza", "misto-quente", "coxinha"}
 
 
 def test_nao_listar_pratos_sem_ingredientes():
@@ -84,4 +84,4 @@ def test_nao_listar_pratos_sem_ingredientes():
         ingredients.add_new_order("jorge", "coxinha", "terça-feira")
         count += 1
     dishes = ingredients.get_available_dishes()
-    assert dishes == ["hamburguer", "misto-quente"]
+    assert dishes == {"hamburguer", "misto-quente"}
