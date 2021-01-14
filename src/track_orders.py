@@ -1,11 +1,3 @@
-from analyze_log import (
-    get_most_requested_recipe,
-    get_qnt_the_recipe_was_ordered,
-    get_recipes_never_ordered,
-    get_unvisited_days
-)
-
-
 class TrackOrders:
     def __init__(self):
         self.orders = []
@@ -17,22 +9,92 @@ class TrackOrders:
         self.orders.append([costumer, order, day])
 
     def get_most_ordered_dish_per_costumer(self, costumer):
-        return get_most_requested_recipe(self.orders, costumer)
+        most_requested = ""
+        costumer_orders = {}
+
+        for name, order, day in self.orders:
+            if name == costumer:
+                if order not in costumer_orders:
+                    costumer_orders[order] = 1
+                else:
+                    costumer_orders[order] += 1
+
+                if (
+                    most_requested not in costumer_orders
+                    or costumer_orders[order] > costumer_orders[most_requested]
+                ):
+                    most_requested = order
+
+        return most_requested
 
     def get_order_frequency_per_costumer(self, costumer, order):
-        return get_qnt_the_recipe_was_ordered(self.orders, costumer, order)
+        quantity = 0
+
+        for name, recipe, day in self.orders:
+            if name == costumer and recipe == order:
+                quantity += 1
+
+        return quantity
 
     def get_never_ordered_per_costumer(self, costumer):
-        return get_recipes_never_ordered(self.orders, costumer)
+        restaurant_orders = set()
+        costumer_orders = set()
+
+        for name, order, day in self.orders:
+            restaurant_orders.add(order)
+
+            if name == costumer:
+                costumer_orders.add(order)
+
+        return restaurant_orders.difference(costumer_orders)
 
     def get_days_never_visited_per_costumer(self, costumer):
-        return get_unvisited_days(self.orders, costumer)
+        open_days = set()
+        visited_days = set()
+
+        for name, order, day in self.orders:
+            open_days.add(day)
+
+            if name == costumer:
+                visited_days.add(day)
+
+        return open_days.difference(visited_days)
 
     def get_busiest_day(self):
-        pass
+        most_busiest_day = ""
+        visited_days = {}
+
+        for name, order, day in self.orders:
+            if day not in visited_days:
+                visited_days[day] = 1
+            else:
+                visited_days[day] += 1
+
+            if (
+                most_busiest_day not in visited_days
+                or visited_days[day] > visited_days[most_busiest_day]
+            ):
+                most_busiest_day = day
+
+        return most_busiest_day
 
     def get_least_busy_day(self):
-        pass
+        least_busy_day = ""
+        visited_days = {}
+
+        for name, order, day in self.orders:
+            if day not in visited_days:
+                visited_days[day] = 1
+            else:
+                visited_days[day] += 1
+
+            if (
+                least_busy_day not in visited_days
+                or visited_days[day] < visited_days[least_busy_day]
+            ):
+                least_busy_day = day
+
+        return least_busy_day
 
 
 if __name__ == "__main__":
@@ -40,7 +102,10 @@ if __name__ == "__main__":
     print(tracker.__len__())
     tracker.add_new_order("ana", "pizza", "domingo")
     tracker.add_new_order("maria", "sopa", "segunda-feira")
+    tracker.add_new_order("joao", "sopa", "segunda-feira")
     print(tracker.get_most_ordered_dish_per_costumer("ana"))
     print(tracker.get_order_frequency_per_costumer("ana", "pizza"))
     print(tracker.get_never_ordered_per_costumer("ana"))
     print(tracker.get_days_never_visited_per_costumer("ana"))
+    print(tracker.get_busiest_day())
+    print(tracker.get_least_busy_day())
