@@ -64,7 +64,7 @@ def analyse_log(path_to_file):
         receita_nunca_pedida = pega_receita_nunca_pedida(dados, "joao")
         dias_sem_ir = pega_dias_sem_ir(dados, "joao")
 
-        with open("data/mkt_campaing.txt", "w") as arquivo_de_marketing:
+        with open("data/mkt_campaign.txt", "w") as arquivo_de_marketing:
             print(
                 receita_mais_solicitada,
                 qtd_receita_pedida,
