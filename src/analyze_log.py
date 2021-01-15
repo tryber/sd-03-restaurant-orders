@@ -70,6 +70,6 @@ def analyse_log(path_to_file):
                 qtd_receita_pedida,
                 receita_nunca_pedida,
                 dias_sem_ir,
-                "\n",
-                file=arquivo_de_marketing
+                sep="\n",
+                file=arquivo_de_marketing,
             )
