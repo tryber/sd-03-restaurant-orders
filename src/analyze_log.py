@@ -100,7 +100,3 @@ def analyze_log(path_to_file):
     analysis.append(never_be_in_day("joao", days, data))
 
     save_lines_in_txt("data/mkt_campaign.txt", analysis)
-
-
-if __name__ == "__main__":
-    analyze_log("data/orders_1.csv")

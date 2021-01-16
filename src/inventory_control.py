@@ -31,6 +31,8 @@ class InventoryControl:
 
         self.order_ingredients = list()
 
+        self.available_dishes = list()
+
     def add_new_order(self, costumer, order, day):
         self.order_ingredients = self.ingredients[order]
         for ingredient in self.order_ingredients:
@@ -44,3 +46,13 @@ class InventoryControl:
                 self.minimum_inventory[ingredient] - self.inventory[ingredient]
             )
         return self.ingredients_to_buy
+
+    def get_available_dishes(self):
+        # retorno: um conjunto de pratos que ainda têm ingredientes disponíveis
+        for dish, ingredients in self.ingredients.items():
+            self.available_dishes.append(dish)
+            for ingredient in ingredients:
+                if self.inventory[ingredient] == 0:
+                    self.available_dishes.pop()
+                    break
+        return set(self.available_dishes)
