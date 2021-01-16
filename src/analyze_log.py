@@ -56,7 +56,7 @@ def analyze_log(path_to_file):
     joao_not_days = wd.difference(data['joao']['days'])
 
     with open("data/mkt_campaign.txt", mode="w") as file:
-        file.write(f"{str(maria_most_ordered)}\n")
-        file.write(f"{str(arnaldos_hamburguer)}\n")
-        file.write(f"{str(joao_not_orders)}\n")
-        file.write(f"{str(joao_not_days)}\n")
+        file.write(f"{maria_most_ordered}\n")
+        file.write(f"{arnaldos_hamburguer}\n")
+        file.write(f"{joao_not_orders}\n")
+        file.write(f"{joao_not_days}\n")
