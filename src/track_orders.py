@@ -5,30 +5,21 @@ class TrackOrders:
     def __len__(self):
         return len(self.orders)
 
-    def extract_food_from_orders_by_person(self):
-        orders_by_food = {}
-        for person, food, day in self.orders:
-            if person not in orders_by_food:
-                orders_by_food[person] = [food]
+    def extract_data_by_person(self, index):
+        orders_dict = {}
+        for data in self.orders:
+            if data[0] not in orders_dict:
+                orders_dict[data[0]] = [data[index]]
             else:
-                orders_by_food[person].append(food)
-        return orders_by_food
-
-    def extract_day_from_orders_by_person(self):
-        orders_by_day = {}
-        for person, food, day in self.orders:
-            if person not in orders_by_day:
-                orders_by_day[person] = [day]
-            else:
-                orders_by_day[person].append(day)
-        return orders_by_day
+                orders_dict[data[0]].append(data[index])
+        return orders_dict
 
     def add_new_order(self, costumer, order, day):
         self.orders.append([costumer, order, day])
 
     def get_most_ordered_dish_per_costumer(self, costumer):
         foods_dict = {}
-        foods_from_person = self.extract_food_from_orders_by_person()
+        foods_from_person = self.extract_data_by_person(1)
         most_ordered = foods_from_person[costumer][0]
         for food in foods_from_person[costumer]:
             if food not in foods_dict:
@@ -40,19 +31,16 @@ class TrackOrders:
         return most_ordered
 
     def get_never_ordered_per_costumer(self, costumer):
-        all_foods = set()
-        foods_from_person = self.extract_food_from_orders_by_person()
+        all_data = set()
+        foods_from_person = self.extract_data_by_person(1)
         for person in foods_from_person:
             for food in foods_from_person[person]:
-                all_foods.add(food)
-        return all_foods.difference(foods_from_person[costumer])
-
-    def get_order_frequency_per_costumer(self, costumer, order):
-        pass
+                all_data.add(food)
+        return all_data.difference(foods_from_person[costumer])
 
     def get_days_never_visited_per_costumer(self, costumer):
         all_days = set()
-        days_from_person = self.extract_day_from_orders_by_person()
+        days_from_person = self.extract_data_by_person(2)
         for person in days_from_person:
             for day in days_from_person[person]:
                 all_days.add(day)
@@ -60,7 +48,7 @@ class TrackOrders:
 
     def get_busiest_day(self):
         all_days_counter = {}
-        days_from_person = self.extract_day_from_orders_by_person()
+        days_from_person = self.extract_data_by_person(2)
         busiest = ''
         flag = True
         for person in days_from_person:
@@ -76,7 +64,7 @@ class TrackOrders:
 
     def get_least_busy_day(self):
         all_days_counter = {}
-        days_from_person = self.extract_day_from_orders_by_person()
+        days_from_person = self.extract_data_by_person(2)
         busiest = ''
         flag = True
         for person in days_from_person:
@@ -108,6 +96,6 @@ if __name__ == "__main__":
         trackOrders.add_new_order(name, food, day)
     print(trackOrders.get_most_ordered_dish_per_costumer("maria"))
     print(trackOrders.get_never_ordered_per_costumer("maria"))
-    print(trackOrders.get_days_never_visited_per_costumer("joao"))
+    print(trackOrders.get_order_frequency_per_costumer("joao"))
     print(trackOrders.get_busiest_day())
     print(trackOrders.get_least_busy_day())
