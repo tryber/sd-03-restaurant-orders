@@ -19,7 +19,7 @@ def best_seller_by_client(client, dict):
     return most_frequent
 
 
-def dish_frequency_by_client(client, dish, dict):
+def dish_frequency_by_client(client, selected_dish, dict):
     # cada cliente retorne uma lista de tuplas onde o
     # prato é o primeiro elemento
     count = {}
@@ -30,7 +30,7 @@ def dish_frequency_by_client(client, dish, dict):
         else:
             count[dish] += 1
 
-    return count[dish]
+    return count[selected_dish]
 
 
 def all_dishes(dict):
@@ -75,13 +75,14 @@ def save_lines_in_txt(filepath, lines):
             file.writelines(f"{line}\n")
 
 
-def analyse_log(path_to_file):
+def analyze_log(path_to_file):
+    # if not path_to_file.endswith('.csv'):
+    #     raise ValueError('Arquivo inválido')
+
     data = {}
 
     # Popula o dicionario data
-    if not path_to_file.endswith('.csv'):
-        raise ValueError('Arquivo inválido')
-    with open(path_to_file) as csv_file:
+    with open(path_to_file, "r") as csv_file:
         csv_dict = csv.reader(csv_file, delimiter=",")
         for name, dish, day in csv_dict:
             if name not in data:
@@ -94,12 +95,12 @@ def analyse_log(path_to_file):
     analysis = []
 
     analysis.append(best_seller_by_client("maria", data))
-    analysis.append(dish_frequency_by_client("arnaldo", "hamburger", data))
+    analysis.append(dish_frequency_by_client("arnaldo", "hamburguer", data))
     analysis.append(never_ordered("joao", dishes, data))
     analysis.append(never_be_in_day("joao", days, data))
 
-    save_lines_in_txt("../data/mkt_campaign.txt", analysis)
+    save_lines_in_txt("data/mkt_campaign.txt", analysis)
 
 
 if __name__ == "__main__":
-    analyse_log("../data/orders_1.csv")
+    analyze_log("data/orders_1.csv")
