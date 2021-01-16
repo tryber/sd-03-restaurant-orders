@@ -64,7 +64,7 @@ def analyze_log(path_to_file):
 
         recipe_most_used = most_recipe_used(data, "maria")
         qty_recipe_ordered = order_qty(
-            data,"arnaldo","hamburguer"
+            data, "arnaldo", "hamburguer"
         )
         recipes_not_ordered = recipe_never_used(data, "joao")
         days_off = anybody_go(data, "joao")
