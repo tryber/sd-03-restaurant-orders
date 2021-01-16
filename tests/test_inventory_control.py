@@ -37,6 +37,19 @@ def test_validar_comprar_todo_estoque_de_hamburguer():
     assert hamburguer == total_ingredients
 
 
+def test_validar_compra_uma_quantidade_maior_que_o_minimo():
+    ingredients = InventoryControl()
+    count = 1
+    while count <= 50:
+        ingredients.add_new_order("jorge", "hamburguer", "terça-feira")
+        ingredients.add_new_order("maria", "pizza", "terça-feira")
+        count += 1
+    hamburguer_pizza = ingredients.add_new_order(
+        "jorge", "hamburguer", "terça-feira"
+    )
+    assert hamburguer_pizza is False
+
+
 def test_validar_ingrediente_compartilhados():
     ingredients = InventoryControl()
     count = 1
@@ -61,14 +74,14 @@ def test_listar_todo_os_pratos_com_ingredientes():
     ingredients = InventoryControl()
     ingredients.add_new_order("jorge", "coxinha", "terça-feira")
     dishes = ingredients.get_available_dishes()
-    assert dishes == ["hamburguer", "pizza", "misto-quente", "coxinha"]
+    assert dishes == {"hamburguer", "pizza", "misto-quente", "coxinha"}
 
 
 def test_nao_listar_pratos_sem_ingredientes():
     ingredients = InventoryControl()
     count = 1
-    while count <= 20:
+    while count <= 50:
         ingredients.add_new_order("jorge", "coxinha", "terça-feira")
         count += 1
     dishes = ingredients.get_available_dishes()
-    assert dishes == ["hamburguer", "misto-quente"]
+    assert dishes == {"hamburguer", "misto-quente"}
