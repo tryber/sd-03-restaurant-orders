@@ -2,8 +2,8 @@ import csv
 
 
 def most_recipe_used(data, costumer):
-    orders = {}
     most_requery = ""
+    orders = {}
 
     for name, order, day in data:
         if name == costumer:
@@ -32,8 +32,8 @@ def order_qty(data, costumer, recipe):
 
 
 def recipe_never_used(data, costumer):
-    costumer_recipes = set()
     recipes = set()
+    costumer_recipes = set()
 
     for name, order, day in data:
         recipes.add(order)
@@ -48,7 +48,7 @@ def anybody_go(data, costumer):
     days_on = set()
     days_with_people = set()
 
-    for order, name, day in data:
+    for name, order, day in data:
         days_on.add(day)
 
         if name == costumer:
@@ -64,9 +64,7 @@ def analyze_log(path_to_file):
 
         recipe_most_used = most_recipe_used(data, "maria")
         qty_recipe_ordered = order_qty(
-            data,
-            "arnaldo",
-            "hamburguer"
+            data,"arnaldo","hamburguer"
         )
         recipes_not_ordered = recipe_never_used(data, "joao")
         days_off = anybody_go(data, "joao")
