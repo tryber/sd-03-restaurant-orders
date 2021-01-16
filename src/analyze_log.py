@@ -3,7 +3,7 @@ import csv
 
 def get_dishes_per_customers(orders, customer):
     dcpc = {}  # Dish Count Per Customer
-    for dish, week_day in orders[customer]:
+    for dish, _ in orders[customer]:
         if dish not in dcpc:
             dcpc[dish] = 1
         else:
@@ -23,14 +23,14 @@ def get_order_frequency_per_customer(orders, customer, order):
 
 def get_never_ordered_per_customer(customer_data, all_dishes):
     customer_dishes = set()
-    for dish, weekday in customer_data:
+    for dish, _ in customer_data:
         customer_dishes.add(dish)
     return all_dishes.difference(customer_dishes)
 
 
 def get_days_never_visited_per_customer(customer_data, all_weekdays):
     customer_weekdays = set()
-    for dish, weekday in customer_data:
+    for _, weekday in customer_data:
         customer_weekdays.add(weekday)
     return all_weekdays.difference(customer_weekdays)
 
@@ -62,21 +62,12 @@ def analyse_log(path_to_file):
         djwa = get_days_never_visited_per_customer(obc['joao'], days_set)
         # Days Joao was absent
 
-        report = open('data/mkt_campaign.txt', 'w')
-        report.write(
-            maria_favourite,
-            '\n',
-            abc,
-            '\n',
-            nobj,
-            '\n',
-            djwa,
-            '\n'
-        )
+        report = open('../data/mkt_campaign.txt', 'w')
+        report.write(f'{maria_favourite};\n\n')
+        report.write(f'{abc};\n\n')
+        report.write(f'{nobj};\n\n')
+        report.write(f'{djwa};')
         report.close()
 
     except FileNotFoundError:
-        return "No such file or directory:", path_to_file
-
-
-print(analyse_log('../data/orders_1.csv'))
+        return f'No such file or directory: {path_to_file}'
