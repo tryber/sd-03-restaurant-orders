@@ -71,3 +71,7 @@ def analyse_log(path_to_file):
 
     except FileNotFoundError:
         return f'No such file or directory: {path_to_file}'
+
+
+if __name__ == '__main__':
+    analyse_log('../data/orders_1.csv')
