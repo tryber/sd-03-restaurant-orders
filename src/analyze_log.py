@@ -2,7 +2,9 @@ import csv
 
 
 def analyze_csv_lines(file_content):
-    return (more_ask_maria(file_content))
+    return (more_ask_maria(file_content) + "\n" + "1" + "\n"
+            + "tese3 test test4" + "\n" + "teste"
+            )
 
 
 def more_ask_maria(file_content):
@@ -11,7 +13,7 @@ def more_ask_maria(file_content):
         if row[0] == "maria":
             only_maria_cardapio.append(row[1])
     # https://www.geeksforgeeks.org/python-find-most-frequent-element-in-a-list/        
-    return max(set(only_maria_cardapio), key=only_maria_cardapio.count)
+    return (max(set(only_maria_cardapio), key=only_maria_cardapio.count))
 
 
 def analyze_log(path_to_file):
