@@ -35,7 +35,7 @@ def get_days_never_visited_per_customer(customer_data, all_weekdays):
     return all_weekdays.difference(customer_weekdays)
 
 
-def analyse_log(path_to_file):
+def analyze_log(path_to_file):
     try:
         obc = {}  # Orders By Customer
         dishes_set = set()
@@ -74,4 +74,4 @@ def analyse_log(path_to_file):
 
 
 if __name__ == '__main__':
-    analyse_log('../data/orders_1.csv')
+    print(analyze_log('../data/orders_1.csv'))
