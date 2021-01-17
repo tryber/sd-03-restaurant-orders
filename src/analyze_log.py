@@ -1,11 +1,24 @@
 import csv
 
 
+def analyze_csv_lines(file_content):
+    return (more_ask_maria(file_content))
+
+
+def more_ask_maria(file_content):
+    only_maria_cardapio = []
+    for row in file_content:
+        if row[0] == "maria":
+            only_maria_cardapio.append(row[1])
+    # https://www.geeksforgeeks.org/python-find-most-frequent-element-in-a-list/        
+    return max(set(only_maria_cardapio), key=only_maria_cardapio.count)
+
+
 def analyze_log(path_to_file):
     with open(path_to_file) as csv_file:
         file_content = csv.reader(csv_file, delimiter=",")
-        for row in file_content:
-            print(row)
+        with open("data/mkt_campaign.txt", "w") as txt_file:
+            print(analyze_csv_lines(file_content), file=txt_file)
 
 
-# analyse_log("/home/cpereiramt/Documentos/Projetos/python/sd-03-restaurant-orders/data/orders_1.csv")
+# analyze_log("/home/cpereiramt/Documentos/Projetos/python/sd-03-restaurant-orders/data/orders_1.csv")
