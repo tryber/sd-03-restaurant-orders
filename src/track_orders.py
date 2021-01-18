@@ -62,12 +62,12 @@ class TrackOrders:
         return min(day_count, key=day_count.get)
 
 
-if __name__ == "__main__":
-    torders = TrackOrders()
-    torders.add_new_order("jorge", "frango", "domingo")
-    torders.add_new_order("jorge", "frango", "domingo")
-    torders.add_new_order("arnaldo", "peixe", "sábado")
-    torders.add_new_order("maria", "carne", "sábado")
-    torders.add_new_order("joao", "salada", "segunda-feira")
-    print(torders.get_least_busy_day())
+# if __name__ == "__main__":
+#     torders = TrackOrders()
+#     torders.add_new_order("jorge", "frango", "domingo")
+#     torders.add_new_order("jorge", "frango", "domingo")
+#     torders.add_new_order("arnaldo", "peixe", "sábado")
+#     torders.add_new_order("maria", "carne", "sábado")
+#     torders.add_new_order("joao", "salada", "segunda-feira")
+#     print(torders.get_least_busy_day())
     # print(torders.get_dishes_per_order('jorge'))
