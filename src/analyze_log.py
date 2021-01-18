@@ -75,7 +75,7 @@ def analyse_log(path_to_file):
     # if not path_to_file.endswith('.csv'):
     #     raise ValueError('Arquivo inválido')
     data = {}
-    with open(path_to_file) as file:
+    with open(path_to_file, "r") as file:
         report_csv = csv.reader(file, delimiter=",")
         for name, dish, day in report_csv:
             if name not in data:
