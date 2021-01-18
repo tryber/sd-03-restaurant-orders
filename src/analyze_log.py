@@ -1,18 +1,6 @@
 import csv
 
 
-def favorite_dish_by_client(client, selected_dish, dict):
-    count = {}
-    client_list = dict[client]
-    for dish, day in client_list:
-        if dish not in count:
-            count[dish] = 1
-        else:
-            count[dish] += 1
-
-    return count[selected_dish]
-
-
 def best_seller_by_client(client, dict):
     count = {}
     client_list = dict[client]
@@ -27,6 +15,34 @@ def best_seller_by_client(client, dict):
         if count[dish] > count[most_frequent]:
             most_frequent = dish
     return most_frequent
+
+
+def favorite_dish_by_client(client, selected_dish, dict):
+    count = {}
+    client_list = dict[client]
+    for dish, day in client_list:
+        if dish not in count:
+            count[dish] = 1
+        else:
+            count[dish] += 1
+
+    return count[selected_dish]
+
+
+def get_total_dish(dict):
+    dishes = set()
+    for client, orders in dict.items():
+        for tuples in orders:
+            dishes.add(tuples[0])
+    return dishes
+
+
+def get_total_days(dict):
+    days = set()
+    for client, orders in dict.items():
+        for tuples in orders:
+            days.add(tuples[1])
+    return days
 
 
 def never_ordered(client, dishes, dict):
@@ -49,35 +65,22 @@ def never_be_in_day(client, days, dict):
     return days.difference(client_days)
 
 
-def get_total_dish(dict):
-    dishes = set()
-    for client, orders in dict.items():
-        for tuples in orders:
-            dishes.add(tuples[0])
-    return dishes
-
-
-def get_total_days(dict):
-    days = set()
-    for client, orders in dict.items():
-        for tuples in orders:
-            days.add(tuples[1])
-    return days
-
-
 def write_lines_in_txt(filepath, lines):
     with open(filepath, "w") as file:
         for line in lines:
             file.writelines(f"{line}\n")
 
 
-def analyse_log(path_to_file):
+def analyze_log(path_to_file):
     # if not path_to_file.endswith('.csv'):
     #     raise ValueError('Arquivo inválido')
+
     data = {}
-    with open(path_to_file, "r") as file:
-        report_csv = csv.reader(file, delimiter=",")
-        for name, dish, day in report_csv:
+
+    # Popula o dicionario data
+    with open(path_to_file, "r") as csv_file:
+        csv_dict = csv.reader(csv_file, delimiter=",")
+        for name, dish, day in csv_dict:
             if name not in data:
                 data[name] = [(dish, day)]
             else:
