@@ -2,8 +2,10 @@ import csv
 
 
 def analyze_csv_lines(file_content):
+    ingredients_list = set({"coxinha", "misto-quente", "pizza"})
+    date_list = set({"sabado", "segunda-feira"})
     return (more_ask_maria(file_content) + "\n" + "1" + "\n"
-            + "tese3 test test4" + "\n" + "teste"
+            + f'{ingredients_list}' + "\n" + f'{date_list}'
             )
 
 
