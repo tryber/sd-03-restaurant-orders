@@ -1,79 +1,80 @@
 import csv
 
 
-def top_receitas(dados, cliente):
-    mais_pedidas = ""
-    pedidos_clientes = {}
+def most_recipe_used(data, costumer):
+    most_requery = ""
+    orders = {}
 
-    for nome, pedido, dia in dados:
-        if nome == cliente:
-            if pedido not in pedidos_clientes:
-                pedidos_clientes[pedido] = 1
+    for name, order, day in data:
+        if name == costumer:
+            if order not in orders:
+                orders[order] = 1
             else:
-                pedidos_clientes[pedido] += 1
+                orders[order] += 1
 
             if (
-                mais_pedidas not in pedidos_clientes
-                or pedidos_clientes[pedido] > pedidos_clientes[mais_pedidas]
+                most_requery not in orders
+                or orders[order] > orders[most_requery]
             ):
-                mais_pedidas = pedido
+                most_requery = order
 
-    return mais_pedidas
-
-
-def qtd_pedida(dados, cliente, receita):
-    quantidade = 0
-
-    for nome, pedido, dia in dados:
-        if nome == cliente and pedido == receita:
-            quantidade += 1
-
-    return quantidade
+    return most_requery
 
 
-def pega_receita_nunca_pedida(dados, cliente):
-    receita_restaurante = set()
-    receita_cliente = set()
+def order_qty(data, costumer, recipe):
+    quantity = 0
 
-    for nome, pedido, dia in dados:
-        receita_restaurante.add(pedido)
+    for name, order, day in data:
+        if name == costumer and order == recipe:
+            quantity += 1
 
-        if nome == cliente:
-            receita_cliente.add(pedido)
-    return receita_restaurante.difference(receita_cliente)
+    return quantity
 
 
-def pega_dias_sem_ir(dados, cliente):
-    dias_abertos = set()
-    dias_comparecidos = set()
+def recipe_never_used(data, costumer):
+    recipes = set()
+    costumer_recipes = set()
 
-    for nome, pedido, dia in dados:
-        dias_abertos.add(dia)
-        if nome == cliente:
-            dias_comparecidos.add(dia)
-    return dias_abertos.difference(dias_comparecidos)
+    for name, order, day in data:
+        recipes.add(order)
+
+        if name == costumer:
+            costumer_recipes.add(order)
+
+    return recipes.difference(costumer_recipes)
 
 
-def analyse_log(path_to_file):
-    with open(path_to_file, "r") as arquivo_de_pedidos:
-        conteudo = csv.reader(arquivo_de_pedidos, delimiter=",")
-        dados = [*conteudo]
+def anybody_go(data, costumer):
+    days_on = set()
+    days_with_people = set()
 
-        receita_mais_solicitada = top_receitas(dados, "Maria")
-        qtd_receita_pedida = qtd_pedida(dados, "arnaldo", "hamburguer")
-        receita_nunca_pedida = pega_receita_nunca_pedida(dados, "joao")
-        dias_sem_ir = pega_dias_sem_ir(dados, "joao")
+    for name, order, day in data:
+        days_on.add(day)
 
-        with open("data/mkt_campaign.txt", "w") as arquivo_de_marketing:
+        if name == costumer:
+            days_with_people.add(day)
+
+    return days_on.difference(days_with_people)
+
+
+def analyze_log(path_to_file):
+    with open(path_to_file, "r") as orders_file:
+        content = csv.reader(orders_file, delimiter=",")
+        data = [*content]
+
+        recipe_most_used = most_recipe_used(data, "maria")
+        qty_recipe_ordered = order_qty(
+            data, "arnaldo", "hamburguer"
+        )
+        recipes_not_ordered = recipe_never_used(data, "joao")
+        days_off = anybody_go(data, "joao")
+
+        with open("data/mkt_campaign.txt", "w") as marketing_list:
             print(
-                receita_mais_solicitada,
-                qtd_receita_pedida,
-                receita_nunca_pedida,
-                dias_sem_ir,
+                recipe_most_used,
+                qty_recipe_ordered,
+                recipes_not_ordered,
+                days_off,
                 sep="\n",
-                file=arquivo_de_marketing,
+                file=marketing_list,
             )
-
-
-if __name__ == "__main__":
-    analyse_log("data/orders_1.csv")
