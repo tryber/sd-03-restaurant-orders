@@ -64,6 +64,7 @@ def read_file(path_to_file):
 
 def analyze_log(path_to_file):
     txt_file = open("data/mkt_campaign.txt", "a")
+    txt_file.truncate(0)
     txt_file.write(analyze_csv_lines(path_to_file))
 
 # analyze_log("/home/cpereiramt/Documentos/Projetos/python/sd-03-restaurant-orders/data/orders_1.csv")
