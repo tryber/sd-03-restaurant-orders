@@ -1,18 +1,29 @@
+from src.analyze_log import get_most_ordered_dish_per_costumer as get_most_ord
+from src.analyze_log import create_order_base, save_dishes, save_date
+from src.analyze_log import get_never_ordered
+
+
 class TrackOrders:
+    def __init__(self):
+        self._tracks = dict()
+
     def __len__(self):
-        pass
+        return len(self._tracks)
 
     def add_new_order(self, costumer, order, day):
-        pass
+        row = [costumer, order, day]
+        create_order_base(row, self._tracks)
+        save_date(row, self._tracks)
+        save_dishes(row, self._tracks)
 
     def get_most_ordered_dish_per_costumer(self, costumer):
-        pass
+        return get_most_ord(self._tracks, costumer)
 
     def get_order_frequency_per_costumer(self, costumer, order):
         pass
 
     def get_never_ordered_per_costumer(self, costumer):
-        pass
+        return get_never_ordered(self._tracks, costumer)
 
     def get_days_never_visited_per_costumer(self, costumer):
         pass
