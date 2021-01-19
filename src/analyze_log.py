@@ -1,31 +1,38 @@
 import csv
+import os
 
 
 def analyse_log(path_to_file):
+    file_name = os.path.basename(path_to_file)
+    if (not file_name.endswith('.csv')):
+        raise ValueError('Formato invalido')
     orders = dict()
     orders['work_days'] = set()
     orders['dishes_list'] = set()
-    with open(path_to_file, mode='r') as file:
-        reader = csv.reader(file)
-        for row in reader:
-            orders['dishes_list'].add(row[1])
-            orders['work_days'].add(row[2])
-            if (row[0] not in orders.keys()):
-                orders[row[0]] = {
-                    'dishes': {},
-                    'date':  {}
-                }
+    try:
+        with open(path_to_file, mode='r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                orders['dishes_list'].add(row[1])
+                orders['work_days'].add(row[2])
+                if (row[0] not in orders.keys()):
+                    orders[row[0]] = {
+                        'dishes': {},
+                        'date':  {}
+                    }
 
-            if row[1] not in orders[row[0]]['dishes'].keys():
-                orders[row[0]]['dishes'][row[1]] = 1
-            else:
-                orders[row[0]]['dishes'][row[1]] += 1
+                if row[1] not in orders[row[0]]['dishes'].keys():
+                    orders[row[0]]['dishes'][row[1]] = 1
+                else:
+                    orders[row[0]]['dishes'][row[1]] += 1
 
-            if row[2] not in orders[row[0]]['date'].keys():
-                orders[row[0]]['date'][row[2]] = 1
-            else:
-                orders[row[0]]['date'][row[2]] += 1
-        file.close()
+                if row[2] not in orders[row[0]]['date'].keys():
+                    orders[row[0]]['date'][row[2]] = 1
+                else:
+                    orders[row[0]]['date'][row[2]] += 1
+            file.close()
+    except FileNotFoundError:
+        raise ValueError(f'Arquivo {path_to_file} não encontrado')
 
         # pprint.pprint(orders)
         maria = max(orders['maria']['dishes'],
