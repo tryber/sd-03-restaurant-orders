@@ -4,8 +4,8 @@ import os
 
 def analyse_log(path_to_file):
     file_name = os.path.basename(path_to_file)
-    if (not file_name.endswith('.csv')):
-        raise ValueError('Formato invalido')
+    # if (not file_name.endswith('.csv')):
+    #     raise ValueError('Formato invalido')
     orders = dict()
     orders['work_days'] = set()
     orders['dishes_list'] = set()
