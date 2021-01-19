@@ -63,7 +63,7 @@ def read_file(path_to_file):
 
 
 def analyze_log(path_to_file):
-    txt_file = open("data/mkt_campaign.txt", "w")
+    txt_file = open("data/mkt_campaign.txt", "a")
     txt_file.write(analyze_csv_lines(path_to_file))
 
 
