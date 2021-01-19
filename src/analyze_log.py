@@ -1,6 +1,5 @@
 import csv
 import pprint
-import operator
 
 
 def analyse_log(path_to_file):	
@@ -28,6 +27,7 @@ def analyse_log(path_to_file):
                 orders[row[0]]['date'][row[2]] = 1
             else:
                 orders[row[0]]['date'][row[2]] += 1
+        file.close()
         
         # pprint.pprint(orders)
         maria = max(orders['maria']['dishes'], key=orders['maria']['dishes'].get)
@@ -37,6 +37,8 @@ def analyse_log(path_to_file):
               
         with open('data/mkt_campaign.txt', mode='w') as text_result:
             text_result.writelines(f'{maria};\n{arnaldo};\n{joao};\n{joao_never}\n')
+            text_result.close()
+        
             
         
 
