@@ -35,7 +35,6 @@ def analyze_log(path_to_file):
 
         file.close()
 
-        # pprint.pprint(orders)
         maria = max(orders['maria']['dishes'],
                     key=orders['maria']['dishes'].get)
         arnaldo = orders['arnaldo']['dishes']['hamburguer'] or 0
