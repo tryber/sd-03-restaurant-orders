@@ -12,7 +12,7 @@ def best_seller_by_client(client, dict):
             count[dish] = 1
         else:
             count[dish] += 1
-         if count[dish] > count[most_frequent]:
+        if count[dish] > count[most_frequent]:
             most_frequent = dish
     return most_frequent
 
