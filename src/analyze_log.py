@@ -32,15 +32,21 @@ def get_never_ord(dishes, costumer, orders=[]):
     return dishes - orders[costumer]['dishes'].keys()
 
 
+def get_never_visited(days, costumer, orders=[]):
+    return days - orders['joao']['date'].keys()
+
+
 def analyze_log(path_to_file):
+    dishes = set()
+    days = set()
     orders = dict()
     orders['work_days'] = set()
     orders['dishes_list'] = set()
     with open(path_to_file, mode='r') as file:
         reader = csv.reader(file)
         for row in reader:
-            orders['dishes_list'].add(row[1])
-            orders['work_days'].add(row[2])
+            dishes.add(row[1])
+            days.add(row[2])
             create_order_base(row, orders)
             save_dishes(row, orders)
             save_date(row, orders)
@@ -49,8 +55,8 @@ def analyze_log(path_to_file):
 
         maria = get_most_ordered_dish_per_costumer(orders, 'maria')
         arnaldo = orders['arnaldo']['dishes']['hamburguer'] or 0
-        joao_never_ord = get_never_ord(orders['dishes_list'], 'joao', orders)
-        joao_never_day = orders['work_days'] - orders['joao']['date'].keys()
+        joao_never_ord = get_never_ord(dishes, 'joao', orders)
+        joao_never_day = get_never_visited(days, 'joao', orders)
 
         with open('data/mkt_campaign.txt', mode='w') as text_result:
             text_result.writelines(
