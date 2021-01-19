@@ -17,9 +17,6 @@ def save_date(row, orders):
 
 
 def analyze_log(path_to_file):
-    # file_name = os.path.basename(path_to_file)
-    # if (not file_name.endswith('.csv')):
-    #     raise ValueError('Formato invalido')
     orders = dict()
     orders['work_days'] = set()
     orders['dishes_list'] = set()
@@ -52,4 +49,4 @@ def analyze_log(path_to_file):
 
 
 if __name__ == '__main__':
-    analyse_log('data/orders_1.csv')
+    analyze_log('data/orders_1.csv')
