@@ -8,11 +8,19 @@ class TrackOrders:
         self._tracks = dict()
         self._dishes = set()
         self._work_days = set()
+        self._busy_days = dict()
 
     def __len__(self):
         return len(self._tracks)
 
+    def busy_days(self, day):
+        if day not in self._busy_days:
+            self._busy_days[day] = 1
+        else:
+            self._busy_days[day] += 1
+
     def add_new_order(self, costumer, order, day):
+        self.busy_days(day)
         self._dishes.add(order)
         self._work_days.add(day)
         row = [costumer, order, day]
@@ -33,7 +41,7 @@ class TrackOrders:
         return get_never_visited(self._work_days, costumer, self._tracks)
 
     def get_busiest_day(self):
-        pass
+        return max(self._busy_days, key=self._busy_days.get)
 
     def get_least_busy_day(self):
-        pass
+        return min(self._busy_days, key=self._busy_days.get)
