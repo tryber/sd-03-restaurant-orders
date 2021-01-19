@@ -28,9 +28,9 @@ def get_most_ordered_dish_per_costumer(orders, costumer):
     return max(orders[costumer]['dishes'], key=orders[costumer]['dishes'].get)
 
 
-def get_never_ordered(dishes, costumer, orders = []):
+def get_never_ord(dishes, costumer, orders=[]):
     return dishes - orders[costumer]['dishes'].keys()
-    
+
 
 def analyze_log(path_to_file):
     orders = dict()
@@ -49,7 +49,7 @@ def analyze_log(path_to_file):
 
         maria = get_most_ordered_dish_per_costumer(orders, 'maria')
         arnaldo = orders['arnaldo']['dishes']['hamburguer'] or 0
-        joao_never_ord = get_never_ordered(orders['dishes_list'], 'joao', orders)
+        joao_never_ord = get_never_ord(orders['dishes_list'], 'joao', orders)
         joao_never_day = orders['work_days'] - orders['joao']['date'].keys()
 
         with open('data/mkt_campaign.txt', mode='w') as text_result:
