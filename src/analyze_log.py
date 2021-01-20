@@ -78,3 +78,4 @@ def analyze_log(path_to_file):
                 sep="\n",
                 file=marketing_list,
             )
+            
