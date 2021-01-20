@@ -1,90 +1,35 @@
 import csv
+from pubsub import pub
+from inventory_control import InventoryControl
+from track_orders import TrackOrders
 
 
-def get_most_consumed_dish(result):
-    mariaDish = {}
-    most_consumed_qty = 1
-    most_consumed_dish = ""
-    for arr in result:
-        if arr[0] == "maria":
-            if arr[1] not in mariaDish:
-                mariaDish[arr[1]] = 1
-            else:
-                mariaDish[arr[1]] += 1
-                if mariaDish[arr[1]] > most_consumed_qty:
-                    most_consumed_qty = mariaDish[arr[1]]
-                    most_consumed_dish = arr[1]
-    return f"{str(most_consumed_dish)};\n"
+def print_info(tracker, control):
+    print(tracker.get_most_ordered_dish_per_costumer("maria"))
+    print(tracker.get_order_frequency_per_costumer("arnaldo", "hamburguer"))
+    print(tracker.get_never_ordered_per_costumer("joao"))
+    print(tracker.get_days_never_visited_per_costumer("joao"))
+    print(control.get_quantities_to_buy())
 
 
-def consumed_hamburguers_by_arnaldo(result):
-    hamburher_consumed = 0
-    for arr in result:
-        if arr[0] == "arnaldo":
-            if arr[1] == "hamburguer":
-                hamburher_consumed += 1
-    return f"{str(hamburher_consumed)};\n"
+def main():
+    topic = "order"
+    path = "data/orders_1.csv"
+
+    tracker = TrackOrders()
+    control = InventoryControl()
+    subs = [tracker.add_new_order, control.add_new_order]
+
+    for sub in subs:
+        pub.subscribe(sub, topic)
+
+    with open(path) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=",")
+        for costumer, order, day in csv_reader:
+            pub.sendMessage(topic, costumer=costumer, order=order, day=day)
+
+    print_info(tracker, control)
 
 
-def never_ordered(result):
-    dishes = set()
-    joao_orders = set()
-    not_ordered = set()
-    for arr in result:
-        dishes.add(arr[1])
-        if arr[0] == "joao":
-            joao_orders.add(arr[1])
-    for i in dishes:
-        if i not in joao_orders:
-            not_ordered.add(i)
-    return f"{str(not_ordered)};\n"
-
-
-def never_gone(result):
-    days = set()
-    days_gone = set()
-    days_not_gone = set()
-    for arr in result:
-        days.add(arr[2])
-        if arr[0] == "joao":
-            days_gone.add(arr[2])
-    for i in days:
-        if i not in days_gone:
-            days_not_gone.add(i)
-    return str(days_not_gone)
-
-
-def analyse_log(filepath):
-    arr = []
-    try:
-        if not filepath.endswith(".csv"):
-            raise ValueError("Formato invalido")
-        with open(filepath) as file:
-            result = csv.reader(file, delimiter=";", quotechar='"')
-            for row in result:
-                arr.append(row[0].split(","))
-        most_consumed_dish = get_most_consumed_dish(arr)
-        consumed_hamburguers = consumed_hamburguers_by_arnaldo(arr)
-        never_eaten = never_ordered(arr)
-        days_not_gone = never_gone(arr)
-        print(
-            most_consumed_dish,
-            consumed_hamburguers,
-            never_eaten,
-            days_not_gone,
-        )
-        file = open("data/mkt_campaign.txt", mode="w")
-        LINES = [
-            most_consumed_dish,
-            consumed_hamburguers,
-            never_eaten,
-            days_not_gone,
-        ]
-        file.writelines(LINES)
-        file.close()
-
-    except FileNotFoundError:
-        raise ValueError("Arquivo file_not_exist.csv não encontrado")
-
-
-analyse_log("data/orders_1.csv")
+if __name__ == "__main__":
+    main()

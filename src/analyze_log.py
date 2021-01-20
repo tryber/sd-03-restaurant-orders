@@ -47,10 +47,11 @@ def never_gone(result):
     for arr in result:
         days.add(arr[2])
         if arr[0] == "joao":
+            print('entrou')
             days_gone.add(arr[2])
     for i in days:
         if i not in days_gone:
-            days_not_gone.add(i)
+            days_not_gone.add(i)      
     return str(days_not_gone)
 
 
@@ -73,3 +74,6 @@ def analyze_log(filepath):
     ]
     file.writelines(LINES)
     file.close()
+
+
+analyze_log('data/orders_1.csv')
