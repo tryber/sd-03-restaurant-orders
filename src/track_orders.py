@@ -74,4 +74,16 @@ class TrackOrders:
         return busiest
 
     def get_least_busy_day(self):
-        pass
+        days = {}
+        for order in self.orders:
+            if order[2] in days:
+                days[order[2]] += 1
+            else:
+                days[order[2]] = 1
+        min = 100000
+        least = ""
+        for day, count in days.items():
+            if count < min:
+                least = day
+                min = count
+        return least

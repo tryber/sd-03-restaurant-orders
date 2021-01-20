@@ -51,7 +51,7 @@ def never_gone(result):
             days_gone.add(arr[2])
     for i in days:
         if i not in days_gone:
-            days_not_gone.add(i)      
+            days_not_gone.add(i)  
     return str(days_not_gone)
 
 
