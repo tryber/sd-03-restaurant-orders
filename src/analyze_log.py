@@ -8,11 +8,11 @@ def import_data_people(filepath):
     with open(filepath) as file:
         data = csv.reader(file, delimiter=",", quotechar='"')
         orders = dict()
-        for row in data:
-            if row[0] in orders:
-                orders[row[0]].append([row[1], row[2]])
+        for customer, order, day in data:
+            if customer in orders:
+                orders[customer].append([order, day])
             else:
-                orders[row[0]] = [[row[1], row[2]]]
+                orders[customer] = [[order, day]]
         return orders
 
 
