@@ -12,11 +12,15 @@ class TrackOrders:
             TrackOrders.orders_list[costumer].append(data)
 
     def get_most_ordered_dish_per_costumer(self, costumer):
-        dishes_per_costumer = []
-        for each_costumer in TrackOrders.orders_list.values():
-            dishes_per_costumer.append(each_costumer)
-        print(dishes_per_costumer)
-        return "hamburguer"
+        dishes_maria_tuple = []
+        dish_list = []
+        for costumer_each in TrackOrders.orders_list.values():
+            if costumer in costumer_each[0]:
+                dishes_maria_tuple.append(costumer_each)
+        for x in dishes_maria_tuple:
+            for y in x:
+                dish_list.append(y[1])
+        return max(set(dish_list), key=dish_list.count)
 
     def get_order_frequency_per_costumer(self, costumer, order):
         pass
