@@ -26,7 +26,18 @@ class TrackOrders:
         pass
 
     def get_never_ordered_per_costumer(self, costumer):
-        pass
+        dishes_joao = set()
+        all_other_dishes = set()
+        for x in TrackOrders.orders_list.values():
+            for y in x:
+                if(y[0] == costumer):
+                    dishes_joao.add(y[1])
+                else:
+                    all_other_dishes.add(y[1])
+        print(all_other_dishes)
+        dishes_joao.add("frango")
+        print(dishes_joao)
+        return all_other_dishes.difference(dishes_joao)
 
     def get_days_never_visited_per_costumer(self, costumer):
         pass
