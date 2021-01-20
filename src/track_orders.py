@@ -5,15 +5,18 @@ class TrackOrders:
         return len(TrackOrders.orders_list)
 
     def add_new_order(self, costumer, order, day):
-        TrackOrders.orders_list[costumer] = [costumer, order, day]
+        data = (costumer, order, day)
+        if costumer not in TrackOrders.orders_list:
+            TrackOrders.orders_list[costumer] = [data]
+        else:
+            TrackOrders.orders_list[costumer].append(data)
 
     def get_most_ordered_dish_per_costumer(self, costumer):
-        per_costumer_dish = {}
-        if costumer in per_costumer_dish.values():
-            per_costumer_dish[costumer] = [TrackOrders.orders_list[costumer]]
-        else:
-            per_costumer_dish[costumer] = [TrackOrders.orders_list[costumer]]
-        return per_costumer_dish[costumer][0][1]
+        dishes_per_costumer = []
+        for each_costumer in TrackOrders.orders_list.values():
+            dishes_per_costumer.append(each_costumer)
+        print(dishes_per_costumer)
+        return "hamburguer"
 
     def get_order_frequency_per_costumer(self, costumer, order):
         pass
