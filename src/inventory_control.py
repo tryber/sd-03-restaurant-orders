@@ -21,7 +21,8 @@ class InventoryControl:
 
     def add_new_order(self, costumer, order, day):
         self.orders.append([costumer, order, day])
-        self.get_available_dishes()
+        self.order = order
+        return self.get_available_dishes()
 
     def returning(self):
         for order in self.orders:
@@ -39,15 +40,27 @@ class InventoryControl:
             self.foods[i] = 0
         return self.returning()
 
-    def get_available_dishes(self):
-        pass
+    def get_set_of_foods(self):
+        foods = set()
+        for food in self.ingredients:
+            foods.add(food)
+        return foods
 
-    # ingredients = set(self.orders_used_inventory.keys())
-    # meals = set(self.ingredients.keys())
-    # meal_to_remove = set()
-    # for ingredient in ingredients:
-    #     if self.orders_used_inventory[ingredient] == 0:
-    #         for meal in meals:
-    #             if ingredient in self.ingredients[meal]:
-    #                 meal_to_remove.add(meal)
-    # return meals.difference(meal_to_remove)
+    def get_set_of_unavailable(self):
+        unavailable = set()
+        for ing in self.ingredients[self.order]:
+            self.minimum_inventory[ing] = self.minimum_inventory[ing] - 1
+        for food, ingredients in self.ingredients.items():
+            for ingredient in ingredients:
+                if self.minimum_inventory[ingredient] == 0:
+                    unavailable.add(food)
+        return unavailable
+
+    def get_available_dishes(self):
+        for ing, qty in self.minimum_inventory.items():
+            if qty == 0:
+                return False
+        foods = self.get_set_of_foods()
+        unavailable = self.get_set_of_unavailable()
+
+        return foods.difference(unavailable)
