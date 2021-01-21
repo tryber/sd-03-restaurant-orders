@@ -40,7 +40,7 @@ def get_days_not_visit(file, person):
     return day_visit.difference(day_not_visit)
 
 
-def analyse_log(path_to_file):
+def analyze_log(path_to_file):
     with open(path_to_file, "r") as file:
         reader = csv.reader(file, delimiter=",")
 # acuçar_sintático =
@@ -65,4 +65,4 @@ def analyse_log(path_to_file):
 
 
 if __name__ == "__main__":
-    analyse_log("data/orders_1.csv")
+    analyze_log("data/orders_1.csv")
