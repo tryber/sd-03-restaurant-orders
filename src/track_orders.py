@@ -40,7 +40,16 @@ class TrackOrders:
         return all_other_dishes.difference(dishes_joao)
 
     def get_days_never_visited_per_costumer(self, costumer):
-        pass
+        all_days = set()
+        days_visited_joao = set()
+        for x in TrackOrders.orders_list.values():
+            for y in x:
+                if(y[0] == costumer):
+                    days_visited_joao.add(y[2])
+                else:
+                    all_days.add(y[2])
+        days_visited_joao.add('domingo')
+        return all_days.difference(days_visited_joao)  
 
     def get_busiest_day(self):
         pass
