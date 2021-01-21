@@ -1,98 +1,68 @@
 import csv
 
 
-def best_seller_by_client(client, dict):
-    count = {}
-    client_list = dict[client]
-    client_dish_and_day = client_list[0]
-    most_frequent = client_dish_and_day[0]
-
-    for dish, day in client_list:
-        if dish not in count:
-            count[dish] = 1
-        else:
-            count[dish] += 1
-        if count[dish] > count[most_frequent]:
-            most_frequent = dish
-    return most_frequent
+def get_favorite_dish(file, person):
+    favorite_food = ""
+    for name, dish, day in file:
+        if name == person:
+            favorite_food = dish
+    return favorite_food
 
 
-def favorite_dish_by_client(client, selected_dish, dict):
-    count = {}
-    client_list = dict[client]
-    for dish, day in client_list:
-        if dish not in count:
-            count[dish] = 1
-        else:
-            count[dish] += 1
-
-    return count[selected_dish]
+def get_most_orders(file, person, recipe):
+    count_recipe = 0
+    for name, dish, day in file:
+        if name == person and dish == recipe:
+            print(dish, recipe)
+            count_recipe += 1
+    return str(count_recipe)
 
 
-def get_total_dish(dict):
-    dishes = set()
-    for client, orders in dict.items():
-        for tuples in orders:
-            dishes.add(tuples[0])
-    return dishes
+def get_never_request_dish(file, person):
+    set_recipes = set()
+    check_recipe_not_request = set()
+    for name, dish, day in file:
+        set_recipes.add(dish)
+        if name == person:
+            check_recipe_not_request.add(dish)
+
+    return set_recipes.difference(check_recipe_not_request)
 
 
-def get_total_days(dict):
-    days = set()
-    for client, orders in dict.items():
-        for tuples in orders:
-            days.add(tuples[1])
-    return days
+def get_days_not_visit(file, person):
+    day_visit = set()
+    day_not_visit = set()
+    for name, dish, day in file:
+        day_visit.add(day)
+        if name == person:
+            day_not_visit.add(day)
+
+    return day_visit.difference(day_not_visit)
 
 
-def never_ordered(client, dishes, dict):
-    client_list = dict[client]
-    client_dishes = set()
-
-    for orders in client_list:
-        client_dishes.add(orders[0])
-
-    return dishes.difference(client_dishes)
-
-
-def never_be_in_day(client, days, dict):
-    client_list = dict[client]
-    client_days = set()
-
-    for orders in client_list:
-        client_days.add(orders[1])
-
-    return days.difference(client_days)
-
-
-def write_lines_in_txt(filepath, lines):
-    with open(filepath, "w") as file:
-        for line in lines:
-            file.writelines(f"{line}\n")
+def analyse_log(path_to_file):
+    with open(path_to_file, "r") as file:
+        reader = csv.reader(file, delimiter=",")
+# acuçar_sintático =
+# https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/
+        new_reader = [*reader]
+        dish_maria = get_favorite_dish(new_reader, "maria")
+        arnaldo_most_hamburguer = get_most_orders(
+            new_reader, "arnaldo", "hamburguer"
+        )
+        joao_never_request = get_never_request_dish(new_reader, "joao")
+        joao_day_never_go = get_days_not_visit(new_reader, "joao")
+        with open("data/mkt_campaign.txt", "w") as result_report:
+            report = [
+                dish_maria,
+                arnaldo_most_hamburguer,
+                joao_never_request,
+                joao_day_never_go,
+            ]
+            result_report.writelines(report)
+            result_report.close()
+    return print(report)
 
 
-def analyze_log(path_to_file):
-    # if not path_to_file.endswith('.csv'):
-    #     raise ValueError('Arquivo inválido')
-
-    data = {}
-
-    # Popula o dicionario data
-    with open(path_to_file, "r") as csv_file:
-        csv_dict = csv.reader(csv_file, delimiter=",")
-        for name, dish, day in csv_dict:
-            if name not in data:
-                data[name] = [(dish, day)]
-            else:
-                data[name].append((dish, day))
-
-    dishes = get_total_dish(data)
-    days = get_total_days(data)
-    report = []
-
-    report.append(best_seller_by_client("maria", data))
-    report.append(favorite_dish_by_client("arnaldo", "hamburguer", data))
-    report.append(never_ordered("joao", dishes, data))
-    report.append(never_be_in_day("joao", days, data))
-
-    write_lines_in_txt("data/mkt_campaign.txt", report)
+if __name__ == "__main__":
+    analyse_log("data/orders_1.csv")
