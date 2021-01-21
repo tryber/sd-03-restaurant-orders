@@ -61,7 +61,6 @@ def analyze_log(path_to_file):
             ]
             result_report.writelines(report)
             result_report.close()
-    return print(report)
 
 
 if __name__ == "__main__":
