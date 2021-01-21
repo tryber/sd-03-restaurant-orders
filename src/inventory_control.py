@@ -35,7 +35,7 @@ class InventoryControl:
             if self.stock[ingredient] > 0:
                 self.stock[ingredient] -= 1
             else:
-                return None
+                return False
 
     def get_quantities_to_buy(self):
         needed_in = {}
