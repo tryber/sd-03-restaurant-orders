@@ -45,3 +45,14 @@ class InventoryControl:
         for ingredient in ingredient_list:
             needed_in[ingredient] = stock_bf[ingredient] - stock_af[ingredient]
         return needed_in
+
+    def get_available_dishes(self):
+        ingredient_list = set(self.stock.keys())
+        stock_available = set(self.ingredients.keys())
+        stock_not_avalaible = set()
+        for ingredient in ingredient_list:
+            if self.stock[ingredient] <= 0:
+                for each_ingredient in stock_available:
+                    if ingredient in self.ingredients[each_ingredient]:
+                        stock_not_avalaible.add(each_ingredient)
+        return stock_available.difference(stock_not_avalaible)
