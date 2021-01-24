@@ -60,7 +60,7 @@ def read_csv(path_to_file):
     return organized_list
 
 
-def analyse_log(path_to_file):
+def analyze_log(path_to_file):
     order_list, products, days_of_week = read_csv(path_to_file)
     maria_most_ordered_product = most_frequent_product_per_client(
         order_list, 'maria')
@@ -70,7 +70,7 @@ def analyse_log(path_to_file):
     joao_never_asked_days_of_week = never_asked(
         order_list, 'joao', days_of_week, 'day_of_week')
     file = open("data/mkt_campaign.txt", "w")
-    file.write(f"{maria_most_ordered_product};\n\n")
-    file.write(f"{arnaldo_hamburguer_orders['hamburguer']};\n\n")
-    file.write(f"{joao_never_asked_products}\n\n")
+    file.write(f"{maria_most_ordered_product}\n")
+    file.write(f"{arnaldo_hamburguer_orders['hamburguer']}\n")
+    file.write(f"{joao_never_asked_products}\n")
     file.write(f"{joao_never_asked_days_of_week}")
