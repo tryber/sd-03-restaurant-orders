@@ -43,13 +43,13 @@ def most_asked(order_list, name):
 
 
 def times_asked(orders, name, item):
-    count = {f"{item}": 0}
+    count = 0
 
     for order in orders[name]:
         if order["product"] == item:
-            count[order["product"]] += 1
+            count += 1
 
-    return count[item]
+    return count
 
 
 def never_asked(orders, name, list_of, term):
