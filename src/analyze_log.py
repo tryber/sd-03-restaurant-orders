@@ -9,27 +9,31 @@ def get_data_from_csv(file):
             data.append([customer, meal, day])
     return data
 
+
 def save_data_to_txt(file, food_data):
     with open(file, "w") as file:
         for data in food_data:
             file.write(f"{data}\n")
 
+
 def times_ordered_by_customer(data, meal, customer):
-        total = 0
-        for item in data:
-            if item[0] == customer and item[1] == meal:
-                total += 1
-        return total
+    total = 0
+    for item in data:
+        if item[0] == customer and item[1] == meal:
+            total += 1
+    return total
+
 
 def days_customer_missing(data, customer):
-        days = set()
-        days_went = set()
-        for order in data:
-            days.add(order[2])
-            if order[0] == customer:
-                days_went.add(order[2])
-        difference = days.difference(days_went)
-        return difference
+    days = set()
+    days_went = set()
+    for order in data:
+        days.add(order[2])
+        if order[0] == customer:
+            days_went.add(order[2])
+    difference = days.difference(days_went)
+    return difference
+
 
 def get_favorite_meal_by_customer(data, customer):
     meal_ordered_by_customer = {}
@@ -55,7 +59,9 @@ def meal_never_ordered(data, customer):
 def analyze_log(path_to_file):
     data = get_data_from_csv(path_to_file)
     most_ordered = get_favorite_meal_by_customer(data, "maria")
-    customer_missing_days = days_customer_missing(data, "joao")
-    times_hamburger_ordered = times_ordered_by_customer(data, 'hamburguer', 'arnaldo')
+    customer_missing = days_customer_missing(data, "joao")
+    times_ordered = times_ordered_by_customer(data, 'hamburguer', 'arnaldo')
     never_ordered_by = meal_never_ordered(data, 'joao')
-    save_data_to_txt("./data/mkt_campaign.txt", [most_ordered, times_hamburger_ordered, never_ordered_by, customer_missing_days])
+    save_data_to_txt(
+        "./data/mkt_campaign.txt",
+        [most_ordered, times_ordered, never_ordered_by, customer_missing])
