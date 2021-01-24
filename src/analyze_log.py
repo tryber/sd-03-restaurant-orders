@@ -9,18 +9,18 @@ def never_asked(orders, name, list_of, term):
     return (set_list.difference(products))
 
 
-def most_frequent_product_per_client(order_list, client):
+def most_frequent_per_client(order_list, client, term):
     count = {}
-    most_frequent = order_list[client][0]["product"]
+    most_frequent = order_list[client][0][term]
 
     for order in order_list[client]:
-        if order["product"] not in count:
-            count[order["product"]] = 1
+        if order[term] not in count:
+            count[order[term]] = 1
         else:
-            count[order["product"]] += 1
+            count[order[term]] += 1
 
-        if count[order["product"]] > count[most_frequent]:
-            most_frequent = order["product"]
+        if count[order[term]] > count[most_frequent]:
+            most_frequent = order[term]
 
     return most_frequent
 
@@ -62,8 +62,8 @@ def read_csv(path_to_file):
 
 def analyze_log(path_to_file):
     order_list, products, days_of_week = read_csv(path_to_file)
-    maria_most_ordered_product = most_frequent_product_per_client(
-        order_list, 'maria')
+    maria_most_ordered_product = most_frequent_per_client(
+        order_list, 'maria', 'product')
     arnaldo_hamburguer_orders = count_product_per_client(order_list, 'arnaldo')
     joao_never_asked_products = never_asked(
         order_list, 'joao', products, 'product')
