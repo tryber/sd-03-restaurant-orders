@@ -60,5 +60,5 @@ class TrackOrders:
         for day in self.orders_per_day:
             if self.orders_per_day[day] < self.orders_per_day[least_busiest]:
                 least_busiest = day
-        
+
         return least_busiest
