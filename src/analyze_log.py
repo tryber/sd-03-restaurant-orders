@@ -61,21 +61,15 @@ def never_asked(orders, name, list_of, term):
     return (set_list.difference(products))
 
 
-def analyse_log(path_to_file):
+def analyze_log(path_to_file):
     order_list, products, days = read_csv(path_to_file)
     maria_favorite = most_asked(order_list, 'maria')
     arnaldo_asked_times = times_asked(order_list, 'arnaldo', 'hamburguer')
     joao_nunca_pediu = never_asked(order_list, 'joao', products, 'product')
     joao_nunca_foi = never_asked(order_list, 'joao', days, 'days_of_week')
 
-    print(
-        order_list, products, days, "\n\n", maria_favorite,
-        "\n\n", arnaldo_asked_times, "\n\n", joao_nunca_pediu,
-        "\n\n", joao_nunca_foi,
-    )
-
     file = open("data/mkt_campaign.txt", "w")
-    file.write(f"{maria_favorite}\n\n")
-    file.write(f"{arnaldo_asked_times}\n\n")
-    file.write(f"{joao_nunca_pediu}\n\n")
-    file.write(f"{joao_nunca_foi}\n\n")
+    file.write(f"{maria_favorite}\n")
+    file.write(f"{arnaldo_asked_times}\n")
+    file.write(f"{joao_nunca_pediu}\n")
+    file.write(f"{joao_nunca_foi}")
