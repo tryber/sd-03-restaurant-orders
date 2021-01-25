@@ -27,16 +27,34 @@ class InventoryControl:
             'frango': 0,
         }
 
+        self.available_dishes = set(
+            ['hamburguer', 'pizza', 'misto-quente', 'coxinha'])
+
+    def remove_dishes(self, ingredient):
+        for dish in self.ingredients:
+            ingredients = set(self.ingredients[dish])
+            if ingredient in ingredients:
+                self.available_dishes.discard(dish)
+
     def add_new_order(self, costumer, order, day):
         ingredients = self.ingredients[order]
         for ingredient in ingredients:
             if (
-                self.quantities_to_buy[ingredient] <
+                self.quantities_to_buy[ingredient] + 1 <
                 self.minimum_inventory[ingredient]
             ):
                 self.quantities_to_buy[ingredient] += 1
+            elif (
+                self.quantities_to_buy[ingredient] + 1 ==
+                self.minimum_inventory[ingredient]
+            ):
+                self.quantities_to_buy[ingredient] += 1
+                self.remove_dishes(ingredient)
             else:
                 return False
 
     def get_quantities_to_buy(self):
         return self.quantities_to_buy
+
+    def get_available_dishes(self):
+        return self.available_dishes
