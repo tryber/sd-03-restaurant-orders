@@ -20,6 +20,9 @@ class InventoryControl:
         # inicializando lista de compras a partir do inventário mínimo
         self.quantities_to_buy = dict.fromkeys(self.minimum_inventory, 0)
 
+        # inicializando cardapio a partir de registro de receitas
+        self.dishes = set(self.ingredients.keys())
+
     def add_new_order(self, costumer, order, day):
         order_ingredients = self.ingredients[order]
         for ingredient in order_ingredients:
@@ -32,3 +35,6 @@ class InventoryControl:
 
     def get_quantities_to_buy(self):
         return self.quantities_to_buy
+
+    def get_available_dishes(self):
+        return self.dishes
