@@ -47,10 +47,46 @@ class TrackOrders:
         return dishes.difference(customer_orders)
 
     def get_days_never_visited_per_costumer(self, costumer):
-        pass
+        days = set()
+        days_frequented = set()
+
+        for name, order, week_day in self.orders:
+            if name == costumer:
+                days_frequented.add(week_day)
+            days.add(week_day)
+
+        return days.difference(days_frequented)
 
     def get_busiest_day(self):
-        pass
+        busiest_day = ""
+        business_days = {}
+        for name, order, week_day in self.orders:
+            if week_day not in business_days:
+                business_days[week_day] = 1
+            else:
+                business_days[week_day] += 1
+
+            if (
+                busiest_day not in business_days
+                or business_days[week_day] > business_days[busiest_day]
+            ):
+                busiest_day = week_day
+
+        return busiest_day
 
     def get_least_busy_day(self):
-        pass
+        lazyest_day = ""
+        business_days = {}
+        for name, order, week_day in self.orders:
+            if week_day not in business_days:
+                business_days[week_day] = 1
+            else:
+                business_days[week_day] += 1
+
+            if (
+                lazyest_day not in business_days
+                or business_days[week_day] < business_days[lazyest_day]
+            ):
+                lazyest_day = week_day
+
+        return lazyest_day
