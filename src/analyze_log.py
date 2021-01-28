@@ -62,21 +62,14 @@ def days_never_frequented(orders, customer):
     return days.difference(days_frequented)
 
 
-def analyse_log(path_to_file):
-    raise NotImplementedError
-
-
-if __name__ == "__main__":
-    print(format_data("./data/orders_1.csv"))
-    print(
-        most_requested_item_by_customer(
-            format_data("./data/orders_1.csv"), "maria"
-        )
-    )
-    print(
-        quantity_item_by_customer(
-            format_data("./data/orders_1.csv"), "hamburguer", "arnaldo"
-        )
-    )
-    print(dishes_never_ordered(format_data("./data/orders_1.csv"), "joao"))
-    print(days_never_frequented(format_data("./data/orders_1.csv"), "joao"))
+def analyze_log(path_to_file):
+    data = format_data(path_to_file)
+    maria_most_wanted = most_requested_item_by_customer(data, "maria")
+    arnaldo_hamburguers = quantity_item_by_customer(data, "hamburguer", "arnaldo")
+    joao_never_ordered = dishes_never_ordered(data, "joao")
+    joao_not_attend = days_never_frequented(data, "joao")
+    file = open("./data/mkt_campaign.txt", "w")
+    file.write(f"{maria_most_wanted}\n")
+    file.write(f"{arnaldo_hamburguers}\n")
+    file.write(f"{joao_never_ordered}\n")
+    file.write(f"{joao_not_attend}\n")
