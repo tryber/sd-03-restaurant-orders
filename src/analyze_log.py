@@ -65,7 +65,11 @@ def days_never_frequented(orders, customer):
 def analyze_log(path_to_file):
     data = format_data(path_to_file)
     maria_most_wanted = most_requested_item_by_customer(data, "maria")
-    arnaldo_hamburguers = quantity_item_by_customer(data, "hamburguer", "arnaldo")
+    arnaldo_hamburguers = quantity_item_by_customer(
+        data,
+        "hamburguer",
+        "arnaldo"
+        )
     joao_never_ordered = dishes_never_ordered(data, "joao")
     joao_not_attend = days_never_frequented(data, "joao")
     file = open("./data/mkt_campaign.txt", "w")
