@@ -14,7 +14,7 @@ def print_info(tracker, control):
 
 def main():
     topic = 'order'
-    path = ""
+    path = "data/orders_1.csv"
 
     tracker = TrackOrders()
     control = InventoryControl()
@@ -29,6 +29,7 @@ def main():
             pub.sendMessage(topic, costumer=costumer, order=order, day=day)
 
     print_info(tracker, control)
+    print(tracker.mkt_metrics)
 
 
 if __name__ == "__main__":

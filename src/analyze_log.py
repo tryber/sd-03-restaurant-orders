@@ -27,7 +27,7 @@ def unpopular_days(mkt_metrics, working_days, customer):
     return unpopular_days
 
 
-def create_mkt_analysis_dict(orders):
+def create_mkt_analysis(orders):
     mkt_metrics = {}
     menu = set()
     working_days = set()
@@ -50,7 +50,7 @@ def create_mkt_analysis_dict(orders):
 def analyze_log(path_to_file):
     with open(path_to_file) as file:
         orders = csv.reader(file, delimiter=",")
-        mkt_metrics, menu, working_days = create_mkt_analysis_dict(orders)
+        mkt_metrics, menu, working_days = create_mkt_analysis(orders)
 
     most_ordered_food_maria = most_ordered_food(mkt_metrics, "maria")
 
