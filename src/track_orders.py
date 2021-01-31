@@ -38,16 +38,42 @@ class TrackOrders:
         return most_ordered_dish
 
     def get_order_frequency_per_customer(self, customer, order):
-        pass
+        order_frequency = []
+        for food in self.mkt_metrics[customer]:
+            total_ordered = self.mkt_metrics[customer][food]["total"]
+            order_frequency.append(food, total_ordered)
+        return order_frequency
 
     def get_never_ordered_per_customer(self, customer):
-        pass
+        unpopular_foods = set()
+        for food in self.menu:
+            if not self.mkt_metrics[customer].get(food):
+                unpopular_foods.add(food)
+        return unpopular_foods
 
     def get_days_never_visited_per_customer(self, customer):
-        pass
+        unpopular_days = set()
+        for day in self.working_days:
+            if not self.mkt_metrics["days"][day].get(customer):
+                unpopular_days.add(day)
+        return unpopular_days
 
     def get_busiest_day(self):
-        pass
+        busiest_day = ""
+        biggest_frequency = 0
+        for day in self.working_days:
+            if self.mkt_metrics["days"][day]["total"] > biggest_frequency:
+                busiest_day = day
+                biggest_frequency = self.mkt_metrics["days"][day]["total"]
+        return busiest_day
 
     def get_least_busy_day(self):
-        pass
+        unpopular_day = ""
+        lowest_frequency = None
+        for day in self.working_days:
+            if not lowest_frequency:
+                lowest_frequency = self.mkt_metrics["days"][day]["total"]
+            if self.mkt_metrics["days"][day]["total"] < lowest_frequency:
+                unpopular_day = day
+                lowest_frequency = self.mkt_metrics["days"][day]["total"]
+        return unpopular_day
