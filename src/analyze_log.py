@@ -20,11 +20,11 @@ def unpopular_foods(mkt_metrics, menu, customer):
 
 
 def unpopular_days(mkt_metrics, working_days, customer):
-    days_never_came_to_store = set()
+    unpopular_days = set()
     for day in working_days:
         if not mkt_metrics["days"][day].get(customer):
-            days_never_came_to_store.add(day)
-    return days_never_came_to_store
+            unpopular_days.add(day)
+    return unpopular_days
 
 
 def create_mkt_analysis_dict(orders):
