@@ -29,7 +29,6 @@ def main():
             pub.sendMessage(topic, customer=customer, order=order, day=day)
 
     print_info(tracker, control)
-    print(tracker.mkt_metrics)
 
 
 if __name__ == "__main__":

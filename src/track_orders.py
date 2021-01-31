@@ -20,7 +20,7 @@ class TrackOrders:
         self.mkt_metrics[customer].setdefault(order, {"total": 0})
         self.mkt_metrics[customer][order].setdefault(day, 0)
         self.mkt_metrics.setdefault("days", {})
-        self.mkt_metrics["days"].setdefault(day, { "total": 0})
+        self.mkt_metrics["days"].setdefault(day, {"total": 0})
         self.mkt_metrics["days"][day].setdefault(customer, {})
         self.mkt_metrics["days"][day][customer].setdefault(order, 0)
         self.mkt_metrics[customer][order][day] += 1
@@ -38,10 +38,10 @@ class TrackOrders:
         return most_ordered_dish
 
     def get_order_frequency_per_customer(self, customer, order):
-        order_frequency = []
+        order_frequency = set()
         for food in self.mkt_metrics[customer]:
             total_ordered = self.mkt_metrics[customer][food]["total"]
-            order_frequency.append(food, total_ordered)
+            order_frequency.add((food, total_ordered))
         return order_frequency
 
     def get_never_ordered_per_customer(self, customer):
