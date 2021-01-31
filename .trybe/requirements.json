@@ -27,17 +27,17 @@
     },
     {
       "identifier": "test_validar_prato_mais_pedido",
-      "description": "Executar o método `get_most_ordered_dish_per_costumer` irá retornar o prato mais pedido",
+      "description": "Executar o método `get_most_ordered_dish_per_customer` irá retornar o prato mais pedido",
       "bonus": false
     },
     {
       "identifier": "test_validar_pedido_nunca_feito_pelo_cliente",
-      "description": "Executar o método `get_never_ordered_per_costumer` irá retornar o pedido que o cliente nunca fez",
+      "description": "Executar o método `get_never_ordered_per_customer` irá retornar o pedido que o cliente nunca fez",
       "bonus": false
     },
     {
       "identifier": "test_validar_dia_que_nunca_foi_feito_pedido",
-      "description": "Executar o método `get_days_never_visited_per_costumer` irá retornar o dias que o cliente nunca visitou",
+      "description": "Executar o método `get_days_never_visited_per_customer` irá retornar o dias que o cliente nunca visitou",
       "bonus": false
     },
     {

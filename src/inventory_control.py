@@ -17,7 +17,7 @@ class InventoryControl:
             'frango': 50,
         }
 
-    def add_new_order(self, costumer, order, day):
+    def add_new_order(self, customer, order, day):
         pass
 
     def get_quantities_to_buy(self):

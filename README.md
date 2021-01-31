@@ -232,16 +232,16 @@ class TrackOrders:
     def __len__(self):
       pass
 
-    def add_new_order(self, costumer, order, day):
+    def add_new_order(self, customer, order, day):
         pass
 
-    def get_most_ordered_dish_per_costumer(self, costumer):
+    def get_most_ordered_dish_per_customer(self, customer):
         pass
 
-    def get_dish_quantity_per_costumer(self, costumer, order):
+    def get_dish_quantity_per_customer(self, customer, order):
         pass
 
-    def get_never_ordered_per_costumer(self, costumer):
+    def get_never_ordered_per_customer(self, customer):
         pass
 
     def get_busiest_day(self):
@@ -267,11 +267,11 @@ class TrackOrders:
 
 - Executar o metodo `add_new_order` deve adicionar um pedido.
 
-- Executar o método `get_most_ordered_dish_per_costumer` irá retornar o prato mais pedido.
+- Executar o método `get_most_ordered_dish_per_customer` irá retornar o prato mais pedido.
 
-- Executar o método `get_never_ordered_per_costumer` irá retornar o pedido que o cliente nunca fez.
+- Executar o método `get_never_ordered_per_customer` irá retornar o pedido que o cliente nunca fez.
 
-- Executar o método `get_days_never_visited_per_costumer` irá retornar o dias que o cliente nunca visitou.
+- Executar o método `get_days_never_visited_per_customer` irá retornar o dias que o cliente nunca visitou.
 
 - Executar o método `get_busiest_day` irá retornar o dia mais movimentado.
 
@@ -320,7 +320,7 @@ class InventoryControl:
             'frango': 10,
         }
 
-    def add_new_order(self, costumer, order, _day):
+    def add_new_order(self, customer, order, _day):
         pass
 
     def get_quantities_to_buy(self):
