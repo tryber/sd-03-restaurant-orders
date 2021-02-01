@@ -53,30 +53,31 @@ class InventoryControl:
 
         for order_item in self.orders:
             _, dish, _ = order_item[0]
-            if order_item[1] == "Unchecked":
-                ingredients = self.ingredients[dish]
-                for ingredient in ingredients:
-                    demand[ingredient] += 1
+            ingredients = self.ingredients[dish]
+            for ingredient in ingredients:
+                demand[ingredient] += 1
+                if order_item[1] == "Unchecked":
                     self.inventory[ingredient] -= 1
         return demand
 
     def get_available_dishes(self):
         dishes = set([*self.ingredients.keys()])
-        avail_dishes = set([*self.ingredients.keys()])
+        avail_dishes = set()
 
         order_is_possible = True
-
+        
         for dish in dishes:
             ingredients = self.ingredients[dish]
             for ingredient in ingredients:
-                print(f'Ingrediente: {ingredient}, prato: {dish}, qtd ingrediente: {self.inventory[ingredient]}')
                 if self.inventory[ingredient] < 0:
                     order_is_possible = False
-                    if dish in avail_dishes:
-                        avail_dishes.remove(dish)
+                    avail_dishes.discard(dish)
+                    break
                 elif self.inventory[ingredient] == 0:
-                    if dish in avail_dishes:
-                        avail_dishes.remove(dish)
+                    avail_dishes.discard(dish)
+                    break
+                else:
+                    avail_dishes.add(dish)
 
         if not order_is_possible:
             return False
