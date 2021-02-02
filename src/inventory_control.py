@@ -19,16 +19,6 @@ class InventoryControl:
             'frango': 50,
         }
 
-        self.inventory = {
-            'pao': 50,
-            'carne': 50,
-            'queijo': 100,
-            'molho': 50,
-            'presunto': 50,
-            'massa': 50,
-            'frango': 50,
-        }
-
     def add_new_order(self, customer, order, day):
         self.orders.append([(customer, order, day), "Unchecked"])
         self.get_quantities_to_buy()
@@ -54,7 +44,7 @@ class InventoryControl:
             for ingredient in ingredients:
                 demand[ingredient] += 1
                 if order_item[1] == "Unchecked":
-                    self.inventory[ingredient] -= 1
+                    self.minimum_inventory[ingredient] -= 1
         return demand
 
     def get_available_dishes(self):
@@ -62,8 +52,8 @@ class InventoryControl:
         avail_dishes = set()
         avail_ingredients = set()
 
-        for ingredient in [*self.inventory.keys()]:
-            if self.inventory[ingredient] > 0:
+        for ingredient in [*self.minimum_inventory.keys()]:
+            if self.minimum_inventory[ingredient] > 0:
                 avail_ingredients.add(ingredient)
 
         for dish in dishes:
