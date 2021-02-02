@@ -1,13 +1,11 @@
 import csv
 
-
 def get_favorite_dish(file, person):
     favorite_food = ""
     for name, dish, day in file:
         if name == person:
             favorite_food = dish
     return favorite_food
-
 
 def get_most_orders(file, person, recipe):
     count_recipe = 0
@@ -16,7 +14,6 @@ def get_most_orders(file, person, recipe):
             print(dish, recipe)
             count_recipe += 1
     return str(count_recipe)
-
 
 def get_never_request_dish(file, person):
     set_recipes = set()
@@ -28,7 +25,6 @@ def get_never_request_dish(file, person):
 
     return set_recipes.difference(check_recipe_not_request)
 
-
 def get_days_not_visit(file, person):
     day_visit = set()
     day_not_visit = set()
@@ -38,7 +34,6 @@ def get_days_not_visit(file, person):
             day_not_visit.add(day)
 
     return day_visit.difference(day_not_visit)
-
 
 def analyze_log(path_to_file):
     with open(path_to_file, "r") as file:
@@ -59,7 +54,6 @@ def analyze_log(path_to_file):
             ]
             result_report.writelines(report)
             result_report.close()
-
 
 if __name__ == "__main__":
     analyze_log("data/orders_1.csv")
