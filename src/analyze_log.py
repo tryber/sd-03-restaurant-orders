@@ -1,48 +1,65 @@
-from src.services import (
-    csv_importer, get_frequency_report_by,
-    get_fields_by, get_fields_related, export_txt)
+import csv
 
 
-def get_maria_favorite_order(data):
-    orders_frequency_in_maria = get_frequency_report_by(
-        "name", "maria", "order", data)
-    return f"- {orders_frequency_in_maria[0][0]}"
+def get_favorite_dish(file, person):
+    favorite_food = ""
+    for name, dish, day in file:
+        if name == person:
+            favorite_food = dish
+    return favorite_food
 
 
-def how_many_times_arnaldo_ordered_hamburguer(data):
-    orders_frequency_in_arnaldo = get_frequency_report_by(
-        "name", "arnaldo", "order", data)
-    try:
-        times = dict(orders_frequency_in_arnaldo)["hamburguer"]
-    except(KeyError):
-        times = 0
-    return f"- {times}"
+def get_most_orders(file, person, recipe):
+    count_recipe = 0
+    for name, dish, day in file:
+        if name == person and dish == recipe:
+            print(dish, recipe)
+            count_recipe += 1
+    return str(count_recipe)
 
 
-def get_no_joao_orders(data):
-    orders = get_fields_by("order", data)
-    joao_orders = get_fields_related("name", "joao", "order", data)
+def get_never_request_dish(file, person):
+    set_recipes = set()
+    check_recipe_not_request = set()
+    for name, dish, day in file:
+        set_recipes.add(dish)
+        if name == person:
+            check_recipe_not_request.add(dish)
 
-    difference = ", ".join(sorted(orders - joao_orders))
-    return f"- {difference}"
-
-
-def get_no_joao_days(data):
-    days = get_fields_by("day", data)
-    joao_days = get_fields_related("name", "joao", "day", data)
-    difference = ", ".join(sorted(days - joao_days))
-    return f"- {difference}"
+    return set_recipes.difference(check_recipe_not_request)
 
 
-def analyse_log(path_to_file):
-    data = csv_importer(path_to_file)
-    q1 = get_maria_favorite_order(data)
-    print("q1", q1)
-    q2 = how_many_times_arnaldo_ordered_hamburguer(data)
-    print("q2", q2)
-    q3 = get_no_joao_orders(data)
-    print("q3", q3)
-    q4 = get_no_joao_days(data)
-    print("q4", q4)
-    questions = q1 + "\n" + q2 + "\n" + q3 + "\n" + q4
-    export_txt(questions)
+def get_days_not_visit(file, person):
+    day_visit = set()
+    day_not_visit = set()
+    for name, dish, day in file:
+        day_visit.add(day)
+        if name == person:
+            day_not_visit.add(day)
+
+    return day_visit.difference(day_not_visit)
+
+
+def analyze_log(path_to_file):
+    with open(path_to_file, "r") as file:
+        reader = csv.reader(file, delimiter=",")
+        new_reader = [*reader]
+        dish_maria = get_favorite_dish(new_reader, "maria")
+        arnaldo_most_hamburguer = get_most_orders(
+            new_reader, "arnaldo", "hamburguer"
+        )
+        joao_never_request = get_never_request_dish(new_reader, "joao")
+        joao_day_never_go = get_days_not_visit(new_reader, "joao")
+        with open("data/mkt_campaign.txt", "w") as result_report:
+            report = [
+                dish_maria,
+                arnaldo_most_hamburguer,
+                joao_never_request,
+                joao_day_never_go,
+            ]
+            result_report.writelines(report)
+            result_report.close()
+
+
+if __name__ == "__main__":
+    analyze_log("data/orders_1.csv")
