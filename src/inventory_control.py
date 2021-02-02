@@ -37,7 +37,6 @@ class InventoryControl:
         if not available_dishes:
             return False
 
-
     def get_quantities_to_buy(self):
         demand = {
             'pao': 0,
@@ -48,8 +47,6 @@ class InventoryControl:
             'massa': 0,
             'frango': 0,
         }
-
-        order_is_possible = True
 
         for order_item in self.orders:
             _, dish, _ = order_item[0]
@@ -63,26 +60,17 @@ class InventoryControl:
     def get_available_dishes(self):
         dishes = set([*self.ingredients.keys()])
         avail_dishes = set()
+        avail_ingredients = set()
 
-        order_is_possible = True
-        
+        for ingredient in [*self.inventory.keys()]:
+            if self.inventory[ingredient] > 0:
+                avail_ingredients.add(ingredient)
+
         for dish in dishes:
-            ingredients = self.ingredients[dish]
-            for ingredient in ingredients:
-                if self.inventory[ingredient] < 0:
-                    order_is_possible = False
-                    avail_dishes.discard(dish)
-                    break
-                elif self.inventory[ingredient] == 0:
-                    avail_dishes.discard(dish)
-                    break
-                else:
-                    avail_dishes.add(dish)
+            ingredients = set(self.ingredients[dish])
+            if len(ingredients) == len(
+                ingredients.intersection(avail_ingredients)
+            ):
+                avail_dishes.add(dish)
 
-        if not order_is_possible:
-            return False
         return avail_dishes
-
-
-
-

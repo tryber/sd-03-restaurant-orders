@@ -69,10 +69,8 @@ class TrackOrders:
 
     def get_least_busy_day(self):
         unpopular_day = ""
-        lowest_frequency = None
+        lowest_frequency = 366
         for day in self.working_days:
-            if not lowest_frequency:
-                lowest_frequency = self.mkt_metrics["days"][day]["total"]
             if self.mkt_metrics["days"][day]["total"] < lowest_frequency:
                 unpopular_day = day
                 lowest_frequency = self.mkt_metrics["days"][day]["total"]
