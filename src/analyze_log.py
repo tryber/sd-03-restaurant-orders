@@ -1,66 +1,75 @@
 import csv
 
 
-def get_qnt_by_recipe(requests, person):
-    qnt_by_recipe = {}
-    for name, recipe, day in requests:
-        if name == person:
-            qnt_by_recipe[recipe] = qnt_by_recipe.get(recipe, 0) + 1
+class Analyze_log:
+    @staticmethod
+    def import_csv(path):
+        data = []
+        with open(path) as file:
+            reader = csv.reader(file)
+            for person, item, day in reader:
+                order_dict = {"person": person, "item": item, "day": day}
+                data.append(order_dict)
+        return data
 
-    return max(qnt_by_recipe, key=qnt_by_recipe.get)
+    def __init__(self, path):
+        self.orders = self.import_csv(path)
 
+    def most_ordered(self, client):
+        most_ordered = ""
+        counter = {}
+        for order in self.orders:
+            item = order["item"]
+            if order["person"] == client:
+                if counter.get(order["item"], 0):
+                    counter[item] += 1
+                else:
+                    counter[item] = 1
+            if most_ordered == "" or counter.get(item, 0) > counter.get(
+                most_ordered, 0
+            ):
+                most_ordered = item
+        return most_ordered
 
-def get_qnt_of_recipe(requests, person, specified_recipe):
-    qnt_by_person_recipe = 0
-    for name, recipe, day in requests:
-        if name == person and recipe == specified_recipe:
-            qnt_by_person_recipe += 1
+    def times_ordered_by_client(self, item, client):
+        counter = 0
+        for order in self.orders:
+            if order["person"] == client and order["item"] == item:
+                counter += 1
+        return counter
 
-    return qnt_by_person_recipe
+    def item_never_ordered_by_client(self, client):
+        menu = set()
+        ordered_by_client = set()
+        for order in self.orders:
+            menu.add(order["item"])
+            if order["person"] == client:
+                ordered_by_client.add(order["item"])
+        difference = menu.difference(ordered_by_client)
+        return difference
 
-
-def get_never_requested_recipe(requests, person):
-    requesteds_recipes = set()
-    all_requesteds_recipes = set()
-    for name, recipe, day in requests:
-        all_requesteds_recipes.add(recipe)
-        if name == person:
-            requesteds_recipes.add(recipe)
-
-    return all_requesteds_recipes.difference(requesteds_recipes)
-
-
-def get_not_visited_day(requests, person):
-    open_days = set()
-    visited_days = set()
-
-    for name, recipe, day in requests:
-        open_days.add(day)
-
-        if name == "joao":
-            visited_days.add(day)
-
-    return open_days.difference(visited_days)
+    def days_client_never_went(self, client):
+        days = set()
+        days_went = set()
+        for order in self.orders:
+            days.add(order["day"])
+            if order["person"] == client:
+                days_went.add(order["day"])
+        difference = days.difference(days_went)
+        return difference
 
 
 def analyze_log(path_to_file):
-    with open(path_to_file) as file:
-        requests = csv.reader(file, delimiter=",")
-        recs = [*requests]
-        most_requested_recipe = get_qnt_by_recipe(recs, "maria")
-        qnt_recipe = get_qnt_of_recipe(recs, "arnaldo", "hamburguer")
-        not_requesteds_recipes = get_never_requested_recipe(recs, "joao")
-        not_visited_days = get_not_visited_day(recs, "joao")
-
-        with open("data/mkt_campaign.txt", "w") as mkfile:
-            print(
-                most_requested_recipe,
-                qnt_recipe,
-                not_requesteds_recipes,
-                not_visited_days,
-                sep="\n",
-                file=mkfile,
-            )
+    logger = Analyze_log(path_to_file)
+    logs = [
+        logger.most_ordered("maria"),
+        logger.times_ordered_by_client("hamburguer", "arnaldo"),
+        logger.item_never_ordered_by_client("joao"),
+        logger.days_client_never_went("joao"),
+    ]
+    with open("data/mkt_campaign.txt", "w") as file:
+        for log in logs:
+            file.writelines(f"{log}\n")
 
 
 if __name__ == "__main__":

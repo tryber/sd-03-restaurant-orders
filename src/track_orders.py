@@ -1,84 +1,83 @@
 class TrackOrders:
     def __init__(self):
         self.orders = []
+        self.orders_per_day = {}
 
     def __len__(self):
         return len(self.orders)
 
+    def orders_per_day(self, day=False):
+        if self.orders_per_day[day]:
+            self.orders_per_day[day] += 1
+        else:
+            self.orders_per_day[day] = 1
+
     def add_new_order(self, costumer, order, day):
-        self.orders.append([costumer, order, day])
+        order_dict = {"person": costumer, "item": order, "day": day}
+        self.orders.append(order_dict)
+        if self.orders_per_day.get(day):
+            self.orders_per_day[day] += 1
+        else:
+            self.orders_per_day[day] = 1
 
     def get_most_ordered_dish_per_costumer(self, costumer):
-        qnt_by_recipe = {}
-        for name, recipe, day in self.orders:
-            if name == costumer:
-                qnt_by_recipe[recipe] = qnt_by_recipe.get(recipe, 0) + 1
+        most_ordered = ""
+        counter = {}
+        for order in self.orders:
+            item = order["item"]
+            if order["person"] == costumer:
+                if counter.get(order["item"], 0):
+                    counter[item] += 1
+                else:
+                    counter[item] = 1
+            if not most_ordered or counter.get(item, 0) > counter.get(
+                most_ordered, 0
+            ):
+                most_ordered = item
+        return most_ordered
 
-        return max(qnt_by_recipe, key=qnt_by_recipe.get)
-
-    def get_order_frequency_per_costumer(self, costumer, order):
-        qnt_by_rec_by_clt = {}
-        for customer, recipe, day in self.orders:
-            if customer not in qnt_by_rec_by_clt:
-                qnt_by_rec_by_clt[customer] = {recipe: 1}
-                continue
-            qnt_by_rec_by_clt[customer][recipe] = (
-                qnt_by_rec_by_clt[customer].get(recipe, 0) + 1
-            )
-
-        return qnt_by_rec_by_clt
+    def get_order_frequency_per_costumer(self, costumer, item):
+        counter = 0
+        for order in self.orders:
+            if order["person"] == costumer and order["item"] == item:
+                counter += 1
+        return counter
 
     def get_never_ordered_per_costumer(self, costumer):
-        all_recipes = set()
-        ordered_recipes = set()
-
-        for name, recipe, day in self.orders:
-            all_recipes.add(recipe)
-            if name == costumer:
-                ordered_recipes.add(recipe)
-
-        return all_recipes.difference(ordered_recipes)
+        menu = set()
+        ordered_by_client = set()
+        for order in self.orders:
+            menu.add(order["item"])
+            if order["person"] == costumer:
+                ordered_by_client.add(order["item"])
+        difference = menu.difference(ordered_by_client)
+        return difference
 
     def get_days_never_visited_per_costumer(self, costumer):
-        all_days = set()
-        visited_days = set()
-
-        for name, _, day in self.orders:
-            all_days.add(day)
-            if name == costumer:
-                visited_days.add(day)
-
-        return all_days.difference(visited_days)
+        days = set()
+        days_went = set()
+        for order in self.orders:
+            days.add(order["day"])
+            if order["person"] == costumer:
+                days_went.add(order["day"])
+        difference = days.difference(days_went)
+        return difference
 
     def get_busiest_day(self):
-        orders_qnt_by_day = {}
-        for _, _, day in self.orders:
-            orders_qnt_by_day[day] = orders_qnt_by_day.get(day, 0) + 1
-
-        return max(orders_qnt_by_day, key=orders_qnt_by_day.get)
+        busiest_day = ""
+        for day in self.orders_per_day:
+            if (
+                self.orders_per_day.get(busiest_day, 0)
+                < self.orders_per_day[day]
+            ):
+                busiest_day = day
+        return busiest_day
 
     def get_least_busy_day(self):
-        orders_qnt_by_day = {}
-        for _, _, day in self.orders:
-            orders_qnt_by_day[day] = orders_qnt_by_day.get(day, 0) + 1
-
-        return min(orders_qnt_by_day, key=orders_qnt_by_day.get)
-
-
-if __name__ == "__main__":
-    csv_parsed = [
-        ["maria", "pizza", "terça-feira"],
-        ["maria", "hamburguer", "terça-feira"],
-        ["joao", "hamburguer", "terça-feira"],
-        ["maria", "coxinha", "segunda-feira"],
-        ["arnaldo", "misto-quente", "terça-feira"],
-        ["jose", "hamburguer", "sabado"],
-        ["maria", "hamburguer", "terça-feira"],
-        ["maria", "hamburguer", "terça-feira"],
-        ["joao", "hamburguer", "terça-feira"],
-    ]
-
-    track_orders = TrackOrders()
-    for name, food, day in csv_parsed:
-        track_orders.add_new_order(name, food, day)
-    never_visited = track_orders.get_days_never_visited_per_costumer("joao")
+        busiest_day = ""
+        for day in self.orders_per_day:
+            if self.orders_per_day.get(
+                busiest_day, 1
+            ) >= self.orders_per_day.get(day):
+                busiest_day = day
+        return busiest_day
