@@ -19,16 +19,7 @@ class InventoryControl:
             'frango': 50,
         }
 
-    def add_new_order(self, customer, order, day):
-        self.orders.append([(customer, order, day), "Unchecked"])
-        self.get_quantities_to_buy()
-        available_dishes = self.get_available_dishes()
-        self.orders[len(self.orders) - 1][1] = "Checked"
-        if not available_dishes:
-            return False
-
-    def get_quantities_to_buy(self):
-        demand = {
+        self.demand = {
             'pao': 0,
             'carne': 0,
             'queijo': 0,
@@ -38,14 +29,24 @@ class InventoryControl:
             'frango': 0,
         }
 
+    def add_new_order(self, customer, order, day):
+        self.orders.append([(customer, order, day), "Unchecked"])
+        available_dishes = self.get_available_dishes()
+        if not available_dishes:
+            self.orders.pop()
+            return False
+        self.get_quantities_to_buy()
+        self.orders[len(self.orders) - 1][1] = "Checked"
+
+    def get_quantities_to_buy(self):
         for order_item in self.orders:
             _, dish, _ = order_item[0]
             ingredients = self.ingredients[dish]
             for ingredient in ingredients:
-                demand[ingredient] += 1
                 if order_item[1] == "Unchecked":
+                    self.demand[ingredient] += 1
                     self.minimum_inventory[ingredient] -= 1
-        return demand
+        return self.demand
 
     def get_available_dishes(self):
         dishes = set([*self.ingredients.keys()])
