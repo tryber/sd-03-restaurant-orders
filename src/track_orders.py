@@ -40,7 +40,8 @@ class TrackOrders:
         return never_ordered_per_costumer(self._dishes, costumer, self._tracks)
 
     def get_days_never_visited_per_costumer(self, costumer):
-        return never_visited_per_costumer(self._work_days, costumer, self._tracks)
+        return never_visited_per_costumer(
+            self._work_days, costumer, self._tracks)
 
     def get_busiest_day(self):
         return max(self._busy_days, key=self._busy_days.get)
