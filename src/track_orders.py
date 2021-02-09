@@ -28,7 +28,7 @@ class TrackOrders:
         self.mkt_metrics["days"][day]["total"] += 1
         self.mkt_metrics["days"][day][customer][order] += 1
 
-    def get_most_ordered_dish_per_customer(self, customer):
+    def get_most_ordered_dish_per_costumer(self, customer):
         most_ordered_dish = ""
         total_ordered = 0
         for food in self.mkt_metrics[customer]:
@@ -44,7 +44,7 @@ class TrackOrders:
             order_frequency.add((food, total_ordered))
         return order_frequency
 
-    def get_never_ordered_per_customer(self, customer):
+    def get_never_ordered_per_costumer(self, customer):
         unpopular_foods = set()
         for food in self.menu:
             if not self.mkt_metrics[customer].get(food):

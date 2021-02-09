@@ -228,20 +228,20 @@ No arquivo `track_orders.py`, implemente a classe `TrackOrders`, contendo, **no 
 
 ```python
 class TrackOrders:
-    # aqui deve expor a quantidade de estoque 
+    # aqui deve expor a quantidade de estoque
     def __len__(self):
       pass
 
     def add_new_order(self, customer, order, day):
         pass
 
-    def get_most_ordered_dish_per_customer(self, customer):
+    def get_most_ordered_dish_per_costumer(self, customer):
         pass
 
     def get_dish_quantity_per_customer(self, customer, order):
         pass
 
-    def get_never_ordered_per_customer(self, customer):
+    def get_never_ordered_per_costumer(self, customer):
         pass
 
     def get_busiest_day(self):
@@ -267,9 +267,9 @@ class TrackOrders:
 
 - Executar o metodo `add_new_order` deve adicionar um pedido.
 
-- Executar o método `get_most_ordered_dish_per_customer` irá retornar o prato mais pedido.
+- Executar o método `get_most_ordered_dish_per_costumer` irá retornar o prato mais pedido.
 
-- Executar o método `get_never_ordered_per_customer` irá retornar o pedido que o cliente nunca fez.
+- Executar o método `get_never_ordered_per_costumer` irá retornar o pedido que o cliente nunca fez.
 
 - Executar o método `get_days_never_visited_per_customer` irá retornar o dias que o cliente nunca visitou.
 
@@ -308,7 +308,7 @@ class InventoryControl:
             'bauru': ['pao', 'queijo', 'presunto', 'tomate'],
             'coxinha': ['massa', 'frango'],
         }
-  
+
         self.minimum_inventory = {
             'pao': 50,
             'carne': 35,

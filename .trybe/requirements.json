@@ -4,7 +4,7 @@
       "identifier": "test_validar_conteudo_do_arquivo_gerado",
       "description": "Executar o método `analyse_log` deverá preencher corretamente os dados no arquivo `data/mkt_campaign.txt`",
       "bonus": false
-    },    
+    },
     {
       "identifier": "test_validar_arquivo_inexistente",
       "description": "Executar o método `analyse_log` com um arquivo inexistente deverá retornar um erro",
@@ -27,12 +27,12 @@
     },
     {
       "identifier": "test_validar_prato_mais_pedido",
-      "description": "Executar o método `get_most_ordered_dish_per_customer` irá retornar o prato mais pedido",
+      "description": "Executar o método `get_most_ordered_dish_per_costumer` irá retornar o prato mais pedido",
       "bonus": false
     },
     {
       "identifier": "test_validar_pedido_nunca_feito_pelo_cliente",
-      "description": "Executar o método `get_never_ordered_per_customer` irá retornar o pedido que o cliente nunca fez",
+      "description": "Executar o método `get_never_ordered_per_costumer` irá retornar o pedido que o cliente nunca fez",
       "bonus": false
     },
     {

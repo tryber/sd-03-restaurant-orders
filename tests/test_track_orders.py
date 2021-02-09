@@ -29,7 +29,7 @@ def test_validar_prato_mais_pedido():
     track_orders = TrackOrders()
     for name, food, day in csv_parsed:
         track_orders.add_new_order(name, food, day)
-    most_ordered = track_orders.get_most_ordered_dish_per_customer("maria")
+    most_ordered = track_orders.get_most_ordered_dish_per_costumer("maria")
     assert "hamburguer" == most_ordered
 
 
@@ -37,7 +37,7 @@ def test_validar_pedido_nunca_feito_pelo_cliente():
     track_orders = TrackOrders()
     for name, food, day in csv_parsed:
         track_orders.add_new_order(name, food, day)
-    never_ordered = track_orders.get_never_ordered_per_customer("joao")
+    never_ordered = track_orders.get_never_ordered_per_costumer("joao")
     assert "coxinha" in never_ordered == {"coxinha", "pizza", "misto-quente"}
 
 
