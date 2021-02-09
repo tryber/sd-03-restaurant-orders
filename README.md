@@ -271,7 +271,7 @@ class TrackOrders:
 
 - Executar o método `get_never_ordered_per_costumer` irá retornar o pedido que o cliente nunca fez.
 
-- Executar o método `get_days_never_visited_per_customer` irá retornar o dias que o cliente nunca visitou.
+- Executar o método `get_days_never_visited_per_costumer` irá retornar o dias que o cliente nunca visitou.
 
 - Executar o método `get_busiest_day` irá retornar o dia mais movimentado.
 

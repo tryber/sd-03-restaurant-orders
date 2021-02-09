@@ -45,7 +45,7 @@ def test_validar_dia_que_nunca_foi_feito_pedido():
     track_orders = TrackOrders()
     for name, food, day in csv_parsed:
         track_orders.add_new_order(name, food, day)
-    never_visited = track_orders.get_days_never_visited_per_customer("joao")
+    never_visited = track_orders.get_days_never_visited_per_costumer("joao")
     assert {"segunda-feira", "sabado"} == never_visited
 
 

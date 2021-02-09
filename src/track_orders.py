@@ -51,7 +51,7 @@ class TrackOrders:
                 unpopular_foods.add(food)
         return unpopular_foods
 
-    def get_days_never_visited_per_customer(self, customer):
+    def get_days_never_visited_per_costumer(self, customer):
         unpopular_days = set()
         for day in self.working_days:
             if not self.mkt_metrics["days"][day].get(customer):
