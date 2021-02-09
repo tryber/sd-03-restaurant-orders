@@ -4,7 +4,7 @@
       "identifier": "test_validar_conteudo_do_arquivo_gerado",
       "description": "Executar o método `analyse_log` deverá preencher corretamente os dados no arquivo `data/mkt_campaign.txt`",
       "bonus": false
-    },    
+    },
     {
       "identifier": "test_validar_arquivo_inexistente",
       "description": "Executar o método `analyse_log` com um arquivo inexistente deverá retornar um erro",
