@@ -1,7 +1,7 @@
 from src.analyze_log import top_order
 from src.analyze_log import format_data, save_dishes, save_date
-from src.analyze_log import never_ordered
-from src.analyze_log import never_visited
+from src.analyze_log import get_never_ordered_per_costumer
+from src.analyze_log import get_days_never_visited_per_costumer
 
 
 class TrackOrders:
@@ -35,11 +35,11 @@ class TrackOrders:
     def get_order_frequency_per_costumer(self, costumer, order):
         pass
 
-    def get_never_ordered(self, costumer):
-        return never_ordered(self._dishes, costumer, self._tracks)
+    def get_get_never_ordered_per_costumer(self, costumer):
+        return get_never_ordered_per_costumer(self._dishes, costumer, self._tracks)
 
-    def get_days_never_visited(self, costumer):
-        return never_visited(
+    def get_days_get_days_never_visited_per_costumer(self, costumer):
+        return get_days_never_visited_per_costumer(
             self._work_days, costumer, self._tracks)
 
     def get_busiest_day(self):

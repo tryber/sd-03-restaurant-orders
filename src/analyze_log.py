@@ -27,11 +27,11 @@ def top_order(orders, costumer):
     return max(orders[costumer]['dishes'], key=orders[costumer]['dishes'].get)
 
 
-def never_ordered(dishes, costumer, orders=[]):
+def get_never_ordered_per_costumer(dishes, costumer, orders=[]):
     return dishes - orders[costumer]['dishes'].keys()
 
 
-def never_visited(days, costumer, orders=[]):
+def get_days_never_visited_per_costumer(days, costumer, orders=[]):
     return days - orders['joao']['date'].keys()
 
 
@@ -52,8 +52,8 @@ def analyze_log(path_to_file):
 
         maria = top_order(orders, 'maria')
         arnaldo = orders['arnaldo']['dishes']['hamburguer'] or 0
-        order = never_ordered(dishes, 'joao', orders)
-        day = never_visited(days, 'joao', orders)
+        order = get_never_ordered_per_costumer(dishes, 'joao', orders)
+        day = get_days_never_visited_per_costumer(days, 'joao', orders)
 
         with open('data/mkt_campaign.txt', mode='w') as costumer_analysis:
             costumer_analysis.writelines(
