@@ -34,6 +34,7 @@ def never_ordered_per_costumer(dishes, costumer, orders=[]):
 def never_visited_per_costumer(days, costumer, orders=[]):
     return days - orders['joao']['date'].keys()
 
+
 def analyse_log(path_to_file):
     dishes = set()
     days = set()
