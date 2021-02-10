@@ -17,8 +17,15 @@ class InventoryControl:
             'frango': 50,
         }
 
+        self.inventory = dict.fromkeys(self.minimum_inventory, 0)
+
+        self.dishes = set(self.ingredients.keys())
+
     def add_new_order(self, costumer, order, day):
         pass
 
     def get_quantities_to_buy(self):
-        pass
+        return self.inventory
+
+    def get_available_dishes(self):
+        return self.dishes
