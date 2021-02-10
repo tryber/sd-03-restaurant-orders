@@ -21,8 +21,28 @@ class InventoryControl:
 
         self.dishes = set(self.ingredients.keys())
 
+    def remove_dishes(self, ingredient):
+        for recipe in self.ingredients:
+            recipe_ingredients = set(self.ingredients[recipe])
+            if ingredient in recipe_ingredients:
+                self.dishes.discard(recipe)
+
     def add_new_order(self, costumer, order, day):
-        pass
+        ingredients = self.ingredients[order]
+        for ingredient in ingredients:
+            if (
+                self.inventory[ingredient] + 1 <
+                self.minimum_inventory[ingredient]
+            ):
+                self.inventory[ingredient] += 1
+            elif (
+                self.inventory[ingredient] + 1 ==
+                self.minimum_inventory[ingredient]
+            ):
+                self.inventory[ingredient] += 1
+                self.remove_dishes(ingredient)
+            else:
+                return False
 
     def get_quantities_to_buy(self):
         return self.inventory
