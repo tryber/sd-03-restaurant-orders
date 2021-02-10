@@ -35,7 +35,7 @@ def never_visited(days, costumer, orders=[]):
     return days - orders['joao']['date'].keys()
 
 
-def analyse_log(path_to_file):
+def analyze_log(path_to_file):
     dishes = set()
     days = set()
     orders = dict()
